@@ -1,0 +1,1890 @@
+<!DOCtheTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Pricing - Mobile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --primary-lighter: #60a5fa;
+            --primary-lightest: #dbeafe;
+            --secondary: #0891b2;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            width: 390px; /* iPhone 12/13 width */
+            max-width: 100%;
+            background-color: #f9fafb;
+            height: 100%;
+            min-height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .app-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .section-header {
+            background-color: var(--primary-lightest);
+            color: var(--primary);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.5rem;
+            margin-left: 0.75rem;
+            margin-right: 0.75rem;
+        }
+        
+        .section-header i {
+            margin-right: 0.5rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin: 0.75rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 0.75rem;
+            background-color: white;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .card-header i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .card-body {
+            padding: 0.75rem;
+        }
+        
+        .pill-select {
+            display: flex;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            margin: 0 -0.75rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .pill-select::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .pill-option {
+            flex: 0 0 auto;
+            padding: 0.5rem 1rem;
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+            border-radius: 2rem;
+            margin-left: 0.75rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pill-option:last-child {
+            margin-right: 0.75rem;
+        }
+        
+        .pill-option.active {
+            background-color: var(--primary-lightest);
+            color: var(--primary);
+            border-color: var(--primary-lighter);
+        }
+        
+        .pill-option i {
+            margin-right: 0.4rem;
+            font-size: 0.8rem;
+        }
+        
+        .alert-banner {
+            margin: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--warning);
+            background-color: #fffbeb;
+            font-size: 0.85rem;
+        }
+        
+        .alert-banner h5 {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert-banner h5 i {
+            margin-right: 0.5rem;
+            color: var(--warning);
+        }
+        
+        .alert-banner ul {
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .impact-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.375rem;
+        }
+        
+        .impact-item {
+            flex: 1 0 calc(50% - 0.75rem);
+            background-color: var(--gray-100);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin: 0 0.375rem 0.75rem;
+            min-width: calc(50% - 0.75rem);
+        }
+        
+        .impact-label {
+            color: var(--gray-600);
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .impact-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .negative-impact {
+            color: var(--danger);
+        }
+        
+        .positive-impact {
+            color: var(--success);
+        }
+        
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+        
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.25rem;
+        }
+        
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .input-value {
+            background-color: var(--gray-100);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .input-badge {
+            background-color: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            color: var(--gray-700);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .delta-negative {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+        
+        /* Approval Zone Styles */
+        .approval-zone {
+            margin: 1rem 0;
+        }
+        
+        .approval-zone-bar {
+            height: 30px;
+            width: 100%;
+            background: linear-gradient(to right, #ef4444 0%, #ef4444 30%, #9ca3af 30%, #9ca3af 75%, #10b981 75%, #10b981 100%);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .approval-indicator {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            height: 100%;
+            background-color: white;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .approval-zone-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.25rem;
+        }
+        
+        .zone-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .reject-zone {
+            color: var(--danger);
+        }
+        
+        .review-zone {
+            color: var(--gray-600);
+        }
+        
+        .approve-zone {
+            color: var(--success);
+        }
+        
+        .deviation-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin-top: 0.25rem;
+        }
+        
+        .approval-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-auto-approve {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .status-manual-review {
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+        }
+        
+        .status-auto-reject {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        
+        .status-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .status-approve .status-icon {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        
+        .status-review .status-icon {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+        
+        .status-reject .status-icon {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .status-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .status-message {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .scenario-badge i {
+            margin-right: 0.35rem;
+        }
+        
+        .scenario-description {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 0.75rem;
+        }
+        
+        .ai-nudge {
+            background-color: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div>
+                <h5 class="mb-0">AI Pricing</h5>
+                <div style="font-size: 0.7rem; font-weight: normal; opacity: 0.8;">CUST10045678 | Home Renovation Loan</div>
+            </div>
+            <button class="btn btn-sm" style="color: white">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </div>
+        
+        <div class="section-header">
+            <i class="fas fa-filter"></i> Scenario Selection
+        </div>
+        
+        <!-- Initial Nudge Layer hidden by default since we preselect a scenario -->
+        <div class="alert-banner" id="initial-nudge" style="display: none;">
+            <h5><i class="fas fa-lightbulb"></i> Consider Alternatives</h5>
+            <p class="mb-2">Before requesting a deviation, have you:</p>
+            <ul class="mb-2">
+                <li>Offered a <strong>different tenor</strong> to achieve EMI goal?</li>
+                <li>Suggested a <strong>different product</strong> that better suits this profile?</li>
+                <li>Proposed <strong>bundled offers</strong> to maintain standard pricing?</li>
+            </ul>
+            <div class="mt-1" style="color: var(--danger); font-weight: 500; font-size: 0.75rem;">
+                <i class="fas fa-exclamation-circle"></i>
+                Deviations create ₹1,550 Cr annual portfolio impact with only 3% conversion benefit (85% vs. 88%)
+            </div>
+        </div>
+        
+        <!-- Category Pills -->
+        <div class="mb-2 mx-3">
+            <label style="font-size: 0.75rem; color: var(--gray-600);">Scenario Category:</label>
+            <div class="pill-select" id="category-selector">
+                <div class="pill-option active" data-category="all">
+                    <i class="fas fa-th"></i> All Scenarios
+                </div>
+                <div class="pill-option" data-category="customer">
+                    <i class="fas fa-user"></i> Customer
+                </div>
+                <div class="pill-option" data-category="risk">
+                    <i class="fas fa-exclamation-triangle"></i> Risk
+                </div>
+                <div class="pill-option" data-category="market">
+                    <i class="fas fa-money-bill-wave"></i> Pricing
+                </div>
+                <div class="pill-option" data-category="approvalstatus">
+                    <i class="fas fa-check-circle"></i> Approval Status
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scenario Selector -->
+        <div class="mx-3 mb-3">
+            <select class="form-select" id="scenario-selector">
+                <option value="">-- Select Scenario --</option>
+                <!-- Key scenarios only -->
+                <option value="prime" data-category="customer">Prime Customer - Conversion Critical</option>
+                <option value="strategic" data-category="customer">Strategic Relationship Case</option>
+                <option value="micro" data-category="customer">Micro-Deviation (Low Impact)</option>
+                <option value="highrisk" data-category="risk">High Risk Case</option>
+                <option value="highticket" data-category="market">High Ticket Case</option>
+                <!-- Approval Status Scenarios -->
+                <option value="autoapprove" data-category="approvalstatus">Auto-Approval Case</option>
+                <option value="greyzone" data-category="approvalstatus">Manual Review (Grey Zone) Case</option>
+                <option value="autoreject" data-category="approvalstatus">Auto-Rejection Case</option>
+            </select>
+        </div>
+        
+        <!-- Selected Scenario Details -->
+        <div class="card" id="scenario-details-card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i> Scenario Details
+            </div>
+            <div class="card-body">
+                <div id="scenario-badge-container"></div>
+                <div id="scenario-description" class="scenario-description"></div>
+                <div id="ai-nudge" class="ai-nudge"></div>
+            </div>
+        </div>
+        
+        <div class="section-header">
+            <i class="fas fa-lightbulb"></i> AI Recommendation
+        </div>
+        
+        <!-- Strong Nudge Against Deviation - Simplified -->
+        <div class="card">
+            <div class="card-body" style="background-color: #f0f9ff;">
+                <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                        <i class="fas fa-robot" style="color: #1e40af; font-size: 1.1rem;"></i>
+                    </div>
+                    <h6 class="mb-0" style="color: #1e40af; font-weight: 600;">AI Recommends Standard Pricing</h6>
+                </div>
+                
+                <div style="background-color: white; border-radius: 0.5rem; padding: 0.75rem; border: 1px solid #dbeafe; margin-bottom: 0.75rem;">
+                    <h6 style="font-size: 0.9rem; color: #1e40af; margin-bottom: 0.5rem;">
+                        <i class="fas fa-star me-2"></i> Alternative Solutions
+                    </h6>
+                    <ul class="mb-0 ps-3" style="font-size: 0.85rem;" id="alternative-solutions">
+                        <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
+                        <li><strong>Propose Home Loan + Top-up</strong> structure for better overall pricing</li>
+                    </ul>
+                </div>
+                
+                <div style="background-color: #fee2e2; border-radius: 0.5rem; padding: 0.75rem; border-left: 3px solid #ef4444;">
+                    <h6 style="font-size: 0.9rem; color: #b91c1c; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle me-2"></i> Incentive Impact
+                    </h6>
+                    <div style="font-size: 1.1rem; font-weight: 600; text-align: center; color: #b91c1c; margin: 0.5rem 0;">
+                        -₹4,250 (8%) Monthly Incentive
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Customer Profile section removed as requested -->
+        
+        <div class="section-header" style="background: linear-gradient(to right, #dbeafe, #eff6ff); border-bottom: 1px solid #bfdbfe;">
+            <i class="fas fa-percentage" style="color: #2563eb;"></i> Commercial Deviation
+            <span style="font-size: 0.75rem; margin-left: auto; background-color: #fef2f2; color: #ef4444; font-weight: 600; padding: 3px 8px; border-radius: 12px; display: flex; align-items: center;">
+                <i class="fas fa-exclamation-triangle me-1"></i> Not Recommended
+            </span>
+        </div>
+        
+        <div class="card" style="box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 12px; border: none; overflow: hidden; margin: 0.75rem;">
+            <div class="card-body pb-0" style="padding: 0;">
+                <!-- Warning Banner -->
+                <div style="background-color: #fef2f2; padding: 12px 16px; border-bottom: 1px solid #fee2e2;">
+                    <div class="d-flex align-items-center">
+                        <div style="width: 36px; height: 36px; border-radius: 18px; background-color: #fee2e2; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-exclamation-circle" style="color: #dc2626; font-size: 1rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: #b91c1c; line-height: 1.1;">Incentive Impact Warning</div>
+                            <div style="font-size: 0.8rem; color: #991b1b; margin-top: 2px;">Each 0.1% ROI reduction = ₹500 less in monthly incentives</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls Container -->
+                <div style="padding: 16px; background-color: white;">
+                    <!-- ROI Control - Enhanced UI -->
+                    <div style="position: relative; margin-bottom: 20px; background-color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-percentage me-2" style="color: #2563eb; font-size: 0.9rem;"></i>
+                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.95rem; color: #1e3a8a;">Rate of Interest</h6>
+                            </div>
+                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 12px;">
+                                Market: 10.75% - 13.50%
+                            </span>
+                        </div>
+                        
+                        <!-- ROI Comparison Table -->
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; margin-bottom: 12px; background-color: white; border-radius: 8px; padding: 10px; border: 1px solid #e5e7eb;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-check" style="color: #059669; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">Standard:</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #059669;" id="standard-roi-display">12.00%</span>
+                                <input type="hidden" id="standard-roi" value="12.00">
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
+                            </div>
+                            <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #1d4ed8; margin-right: 8px;" id="requested-roi-display">11.25%</span>
+                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem;" id="roi-delta">-0.75%</span>
+                                <input type="hidden" id="requested-roi" value="11.25">
+                            </div>
+                        </div>
+                        
+                        <input type="range" class="form-range" id="roi-slider" min="8" max="15" step="0.05" value="11.25" style="height: 10px;">
+                    </div>
+                    
+                    <!-- PF Control - Enhanced UI -->
+                    <div style="position: relative; margin-bottom: 20px; background-color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-money-bill-wave me-2" style="color: #2563eb; font-size: 0.9rem;"></i>
+                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.95rem; color: #1e3a8a;">Processing Fee</h6>
+                            </div>
+                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 12px;">
+                                Range: ₹0 - ₹50,000
+                            </span>
+                        </div>
+                        
+                        <!-- PF Comparison Table -->
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; margin-bottom: 12px; background-color: white; border-radius: 8px; padding: 10px; border: 1px solid #e5e7eb;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-check" style="color: #059669; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">Standard:</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #059669;" id="standard-pf-display">₹25,000</span>
+                                <input type="hidden" id="standard-pf" value="25,000">
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
+                            </div>
+                            <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #1d4ed8; margin-right: 8px;" id="requested-pf-display">₹10,000</span>
+                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem;" id="pf-delta">-60%</span>
+                                <input type="hidden" id="requested-pf" value="10000">
+                            </div>
+                        </div>
+                        
+                        <input type="range" class="form-range" id="pf-slider" min="0" max="50000" step="1000" value="10000" style="height: 10px;">
+                    </div>
+                    
+                    <!-- Impact Summary - Enhanced UI -->
+                    <div style="background: linear-gradient(100deg, #fee2e2 0%, #fef2f2 100%); border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.1); border: 1px solid #fecaca;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <div style="width: 32px; height: 32px; border-radius: 16px; background-color: white; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <i class="fas fa-chart-line" style="color: #dc2626; font-size: 0.9rem;"></i>
+                                </div>
+                                <h6 style="font-size: 1rem; color: #991b1b; margin-bottom: 0; font-weight: 700;">Impact Summary</h6>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: rgba(255, 255, 255, 0.6); border-radius: 8px; padding: 12px; border: 1px solid rgba(254, 202, 202, 0.5);">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-wallet me-2" style="color: #dc2626; font-size: 0.85rem;"></i>
+                                    <span style="font-size: 0.9rem; color: #991b1b; font-weight: 600;">Monthly Incentive:</span>
+                                </div>
+                                <span class="fw-bold" style="font-size: 1.1rem; color: #dc2626;" id="incentive-impact">-₹4,250</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-coins me-2" style="color: #dc2626; font-size: 0.85rem;"></i>
+                                    <span style="font-size: 0.9rem; color: #991b1b; font-weight: 600;">Case Profits:</span>
+                                </div>
+                                <span class="fw-bold" style="font-size: 1.1rem; color: #dc2626;" id="total-impact">-₹77,500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-header">
+            <i class="fas fa-chart-pie"></i> Approval Status
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div id="approval-status" class="approval-status status-manual-review">
+                    <div class="status-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div>
+                        <div class="status-title">Manual Review Required</div>
+                        <p class="status-message">This deviation requires manual approval based on your current ROI (-0.75%) and PF (-60%) adjustments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Impact Analysis section removed as requested -->
+        
+        <div class="section-header">
+            <i class="fas fa-comment-alt"></i> Justification
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <textarea class="form-control" id="justification" rows="5" placeholder="Enter your justification for this deviation..."></textarea>
+                <div class="mt-2" style="color: var(--gray-600); font-size: 0.8rem;">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Strong justification increases approval likelihood. Include competitive offers, relationship value, and strategic importance.
+                </div>
+                
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-outline-primary w-50" id="use-standard-pricing" style="padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+                        <i class="fas fa-undo me-1"></i>
+                        Use Standard Pricing
+                    </button>
+                    <button class="btn btn-primary w-50" id="request-deviation" style="padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+                        <i class="fas fa-paper-plane me-1"></i>
+                        Request Deviation
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="height: 40px;"></div> <!-- Bottom spacing -->
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // All scenarios data
+            const scenarios = {
+                "micro": {
+                    name: "Micro-Deviation (Low Impact)",
+                    description: "Very small ROI/PF tweaks with negligible impact on profitability.",
+                    iconBackground: "#dbeafe",
+                    iconColor: "#2563eb",
+                    icon: "microscope",
+                    nudgeMessage: "This deviation is minimal with negligible impact. Focus on quick processing rather than extensive justification.",
+                    approvalPathway: "Eligible for auto-approval without manual review.",
+                    recommendations: [
+                        "Process without extensive documentation requirements",
+                        "Consider bundling similar micro-deviations for efficiency",
+                        "Monitor aggregate impact of micro-deviations over time"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Negligible impact (-₹2,500)",
+                        conversionLikelihood: "+10% conversion probability",
+                        processingTimeImpact: "Instant approval"
+                    },
+                    riskLevel: "Very Low Risk",
+                    commercialTerms: {
+                        standardRoi: 11.50,
+                        requestedRoi: 11.35,
+                        standardPf: 20000,
+                        requestedPf: 18000
+                    }
+                },
+                "strategic": {
+                    name: "Strategic Relationship Case",
+                    description: "High lifetime value customers with significant relationship value across products.",
+                    iconBackground: "#bfdbfe",
+                    iconColor: "#1e40af",
+                    icon: "handshake",
+                    nudgeMessage: "This premium customer has high cross-sell potential. The relationship value likely justifies the pricing adjustment if within reasonable bounds.",
+                    approvalPathway: "Requires L2 approval. Expedited process available for Premium segment customers.",
+                    recommendations: [
+                        "Document full relationship value in justification",
+                        "Highlight cross-sell potential across product lines",
+                        "Consider relationship-based pricing band for similar cases"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Minimal impact (offset by relationship value)",
+                        conversionLikelihood: "+35% conversion probability",
+                        processingTimeImpact: "Expedited (Premium track)"
+                    },
+                    riskLevel: "Low Risk",
+                    commercialTerms: {
+                        standardRoi: 12.50,
+                        requestedRoi: 11.50,
+                        standardPf: 30000,
+                        requestedPf: 15000
+                    }
+                },
+                "prime": {
+                    name: "Prime Customer - Conversion Critical",
+                    description: "Strong bureau, low FOIR cases that meet high quality thresholds.",
+                    iconBackground: "#bbf7d0",
+                    iconColor: "#166534",
+                    icon: "trophy",
+                    nudgeMessage: "This prime customer has excellent credit metrics. Consider competitive market rates to ensure conversion.",
+                    approvalPathway: "Eligible for auto-approval if within 0.50% ROI band.",
+                    recommendations: [
+                        "Compare to recent approvals for similar profiles",
+                        "Verify competitive offers if cited in application",
+                        "Document clean bureau history in justification"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Low negative impact (-₹35,000)",
+                        conversionLikelihood: "+45% conversion probability",
+                        processingTimeImpact: "Fast-track eligible"
+                    },
+                    riskLevel: "Low Risk",
+                    commercialTerms: {
+                        standardRoi: 12.00,
+                        requestedRoi: 11.25,
+                        standardPf: 25000,
+                        requestedPf: 10000
+                    }
+                },
+                "strong": {
+                    name: "Strong Customer - Higher Than Benchmark",
+                    description: "Clean customer profiles requesting deviations above normal approval thresholds.",
+                    iconBackground: "#a7f3d0",
+                    iconColor: "#047857",
+                    icon: "shield-alt",
+                    nudgeMessage: "This customer has excellent credentials but is requesting a higher than benchmark deviation. Risk metrics support consideration but elevated approval may be required.",
+                    approvalPathway: "Requires L2 approval due to above-standard deviation magnitude.",
+                    recommendations: [
+                        "Highlight strong bureau score and repayment history",
+                        "Document benchmarking against similar approved cases",
+                        "Consider segmentation update if profile merits preferential band"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Moderate negative impact (-₹45,000)",
+                        conversionLikelihood: "+30% conversion probability",
+                        processingTimeImpact: "Standard"
+                    },
+                    riskLevel: "Low Risk",
+                    commercialTerms: {
+                        standardRoi: 12.25,
+                        requestedRoi: 11.00,
+                        standardPf: 28000,
+                        requestedPf: 14000
+                    }
+                },
+                "highticket": {
+                    name: "High Ticket Exposure Case",
+                    description: "Large loans with significant absolute revenue impact despite lower percentage adjustments.",
+                    iconBackground: "#fed7aa",
+                    iconColor: "#9a3412",
+                    icon: "money-bill-wave",
+                    nudgeMessage: "This high-ticket case creates significant absolute revenue impact. Ensure approval at appropriate level.",
+                    approvalPathway: "Requires L3 approval due to high absolute impact.",
+                    recommendations: [
+                        "Calculate absolute revenue impact for full transparency",
+                        "Ensure strong risk metrics to justify high exposure",
+                        "Consider risk-adjusted pricing for large ticket size"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "High negative impact (-₹1,20,000)",
+                        conversionLikelihood: "+25% conversion probability",
+                        processingTimeImpact: "Extended (High scrutiny)"
+                    },
+                    riskLevel: "Medium Risk",
+                    commercialTerms: {
+                        standardRoi: 13.00,
+                        requestedRoi: 12.25,
+                        standardPf: 40000,
+                        requestedPf: 20000
+                    }
+                },
+                "autoapprove": {
+                    name: "Auto-Approval Case",
+                    description: "Small deviation within auto-approval thresholds, requiring no manual review.",
+                    iconBackground: "#dcfce7",
+                    iconColor: "#16a34a",
+                    icon: "check-circle",
+                    nudgeMessage: "This deviation falls within the auto-approval thresholds. No additional review is required, and the case will be processed automatically.",
+                    approvalPathway: "Auto-approved, no manual review required.",
+                    recommendations: [
+                        "Document competitive reason in system notes",
+                        "Proceed without creating approval task",
+                        "Case will be auto-disbursed after customer acceptance"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Minimal impact (-₹12,500)",
+                        conversionLikelihood: "+20% conversion probability",
+                        processingTimeImpact: "Instant (no manual review)"
+                    },
+                    riskLevel: "Low Risk",
+                    commercialTerms: {
+                        standardRoi: 12.50,
+                        requestedRoi: 12.20,
+                        standardPf: 22000,
+                        requestedPf: 18000
+                    }
+                },
+                "greyzone": {
+                    name: "Manual Review (Grey Zone) Case",
+                    description: "Moderate deviation requiring manual review by an approver, but likely to be approved with proper justification.",
+                    iconBackground: "#e2e8f0",
+                    iconColor: "#64748b",
+                    icon: "search",
+                    nudgeMessage: "This deviation requires manual review. Provide detailed justification for best chance of approval.",
+                    approvalPathway: "Requires L1/L2 approval through standard workflow.",
+                    recommendations: [
+                        "Include detailed competitive information",
+                        "Add relationship value details in justification",
+                        "Reference similar approved cases if available"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Moderate impact (-₹55,000)",
+                        conversionLikelihood: "+30% conversion probability",
+                        processingTimeImpact: "24-48 hours for approval"
+                    },
+                    riskLevel: "Low-Medium Risk",
+                    commercialTerms: {
+                        standardRoi: 12.75,
+                        requestedRoi: 11.95,
+                        standardPf: 25000,
+                        requestedPf: 15000
+                    }
+                },
+                "autoreject": {
+                    name: "Auto-Rejection Case",
+                    description: "Significant deviation that exceeds auto-rejection thresholds, requiring exceptional justification and senior approval.",
+                    iconBackground: "#fee2e2",
+                    iconColor: "#b91c1c",
+                    icon: "ban",
+                    nudgeMessage: "This deviation exceeds auto-rejection thresholds. Consider revising your request or providing exceptional justification for senior review.",
+                    approvalPathway: "Requires L3+ approval and exceptional justification.",
+                    recommendations: [
+                        "Revise request to bring into approvable range",
+                        "Secure pre-approval from senior management if critical",
+                        "Provide documented proof of competitive offer"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Major impact (-₹175,000)",
+                        conversionLikelihood: "+40% conversion probability",
+                        processingTimeImpact: "5+ days for approval"
+                    },
+                    riskLevel: "High Risk",
+                    commercialTerms: {
+                        standardRoi: 13.50,
+                        requestedRoi: 11.50,
+                        standardPf: 35000,
+                        requestedPf: 5000
+                    }
+                },
+                "highrisk": {
+                    name: "High Risk + Commercial Relaxation",
+                    description: "Poor risk profiles with pricing reduction requests.",
+                    iconBackground: "#ef4444",
+                    iconColor: "#ffffff",
+                    icon: "radiation",
+                    nudgeMessage: "This high-risk profile is requesting pricing benefits. Relaxing commercial terms on high-risk cases requires strong justification.",
+                    approvalPathway: "Requires Credit Risk Head approval plus L3 commercial approval.",
+                    recommendations: [
+                        "Consider additional security to offset risk rather than price cut",
+                        "Evaluate profitability with projected delinquency factored in",
+                        "Propose alternative products more suitable for risk profile"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Extreme negative impact (-₹210,000 including risk cost)",
+                        conversionLikelihood: "+15% conversion probability",
+                        processingTimeImpact: "Extended (Risk & Commercial review)"
+                    },
+                    riskLevel: "Critical Risk",
+                    commercialTerms: {
+                        standardRoi: 14.00,
+                        requestedRoi: 12.75,
+                        standardPf: 35000,
+                        requestedPf: 5000
+                    }
+                }
+            };
+            
+            // Get UI elements
+            const scenarioSelector = document.getElementById('scenario-selector');
+            const categorySelector = document.getElementById('category-selector');
+            const scenarioDetailsCard = document.getElementById('scenario-details-card');
+            const initialNudge = document.getElementById('initial-nudge');
+            const requestedRoi = document.getElementById('requested-roi');
+            const requestedPf = document.getElementById('requested-pf');
+            const roiDelta = document.getElementById('roi-delta');
+            const pfDelta = document.getElementById('pf-delta');
+            const roiDeviationDisplay = document.getElementById('roi-deviation-display');
+            const pfDeviationDisplay = document.getElementById('pf-deviation-display');
+            const roiIndicator = document.getElementById('roi-indicator');
+            const pfIndicator = document.getElementById('pf-indicator');
+            const approvalStatus = document.getElementById('approval-status');
+            
+            // Set up category filter
+            const categoryPills = document.querySelectorAll('.pill-option');
+            categoryPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Remove active class from all pills
+                    categoryPills.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked pill
+                    this.classList.add('active');
+                    
+                    const selectedCategory = this.getAttribute('data-category');
+                    
+                    // Filter scenarios dropdown
+                    Array.from(scenarioSelector.options).forEach(option => {
+                        if (option.value === '') return; // Skip the placeholder option
+                        
+                        if (selectedCategory === 'all' || option.getAttribute('data-category') === selectedCategory) {
+                            option.style.display = '';
+                        } else {
+                            option.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Set up scenario selection
+            scenarioSelector.addEventListener('change', function() {
+                const selectedScenarioId = this.value;
+                
+                // Show or hide initial nudge and scenario details
+                if (selectedScenarioId === '') {
+                    initialNudge.style.display = 'block';
+                    scenarioDetailsCard.style.display = 'none';
+                } else {
+                    initialNudge.style.display = 'none';
+                    scenarioDetailsCard.style.display = 'block';
+                    
+                    // Update scenario details
+                    updateScenarioDetails(selectedScenarioId);
+                    
+                    // Update approval zones
+                    updateApprovalZones(selectedScenarioId);
+                    
+                    // Update impact analysis
+                    updateImpactAnalysisById(selectedScenarioId);
+                }
+            });
+            
+            // Update scenario details
+            function updateScenarioDetails(scenarioId) {
+                const scenario = scenarios[scenarioId];
+                if (!scenario) return;
+                
+                // Update badge
+                const badgeContainer = document.getElementById('scenario-badge-container');
+                badgeContainer.innerHTML = '';
+                
+                const badge = document.createElement('div');
+                badge.className = 'scenario-badge';
+                badge.style.backgroundColor = scenario.iconBackground;
+                badge.style.color = scenario.iconColor;
+                badge.innerHTML = `<i class="fas fa-${scenario.icon}"></i> ${scenario.name}`;
+                badgeContainer.appendChild(badge);
+                
+                // Update description and nudge
+                document.getElementById('scenario-description').textContent = scenario.description;
+                document.getElementById('ai-nudge').innerHTML = `<i class="fas fa-robot me-1"></i> ${scenario.nudgeMessage}`;
+                
+                // Update recommendations if element exists
+                const recommendationsList = document.getElementById('recommendations-list');
+                if (recommendationsList) {
+                    recommendationsList.innerHTML = '';
+                    scenario.recommendations.forEach(rec => {
+                        const li = document.createElement('li');
+                        li.textContent = rec;
+                        recommendationsList.appendChild(li);
+                    });
+                }
+                
+                // Update commercial terms based on scenario
+                updateCommercialTerms(scenario);
+                
+                // Update impact analysis
+                    updateImpactAnalysis(scenario);
+                    
+                    // Update deviation-specific message about incentives
+                    updateIncentiveImpact(scenario);
+                }
+                
+                // Update incentive impact message based on scenario
+                function updateIncentiveImpact(scenario) {
+                    if (!scenario) return;
+                    
+                    let incentiveImpact = "-₹4,250 (8%) Monthly Incentive";
+                    
+                    // Customize based on scenario type
+                    if (scenario.name.includes('Prime')) {
+                        incentiveImpact = "-₹3,750 (7%) Monthly Incentive";
+                    } else if (scenario.name.includes('Strategic')) {
+                        incentiveImpact = "-₹5,200 (10%) Monthly Incentive";
+                    } else if (scenario.name.includes('Micro')) {
+                        incentiveImpact = "-₹1,100 (2%) Monthly Incentive";
+                    } else if (scenario.name.includes('High Risk')) {
+                        incentiveImpact = "-₹6,800 (13%) Monthly Incentive";
+                    } else if (scenario.name.includes('High Ticket')) {
+                        incentiveImpact = "-₹5,600 (11%) Monthly Incentive";
+                    }
+                    
+                    // Update the UI
+                    const incentiveElement = document.querySelector('.card-body .fas.fa-exclamation-circle.me-2').parentElement.nextElementSibling;
+                    if (incentiveElement) {
+                        incentiveElement.textContent = incentiveImpact;
+                    }
+                }
+                
+                // Update commercial terms based on scenario
+                function updateCommercialTerms(scenario) {
+                if (scenario && scenario.commercialTerms) {
+                    const { standardRoi, requestedRoi, standardPf, requestedPf } = scenario.commercialTerms;
+                    
+                    // Update ROI values
+                    document.getElementById('standard-roi').value = standardRoi;
+                    document.getElementById('standard-roi-display').textContent = standardRoi.toFixed(2);
+                    
+                    document.getElementById('requested-roi').value = requestedRoi;
+                    document.getElementById('requested-roi-display').textContent = requestedRoi.toFixed(2);
+                    document.getElementById('roi-slider').value = requestedRoi;
+                    
+                    // Update Processing Fee values
+                    document.getElementById('standard-pf').value = standardPf;
+                    document.getElementById('standard-pf-display').textContent = numberWithCommas(standardPf);
+                    
+                    document.getElementById('requested-pf').value = requestedPf;
+                    document.getElementById('requested-pf-display').textContent = numberWithCommas(requestedPf);
+                    document.getElementById('pf-slider').value = requestedPf;
+                    
+                    // Update deltas and impacts
+                    updateRoiImpact();
+                    updatePfImpact();
+                }
+            }
+            
+            // Update impact analysis based on scenario
+            function updateImpactAnalysis(scenario) {
+                if (scenario && scenario.impactAnalysis) {
+                    document.getElementById('profitability-impact').textContent = scenario.impactAnalysis.profitabilityImpact;
+                    document.getElementById('conversion-impact').textContent = scenario.impactAnalysis.conversionLikelihood;
+                    document.getElementById('processing-time').textContent = scenario.impactAnalysis.processingTimeImpact;
+                    document.getElementById('risk-level').textContent = scenario.riskLevel;
+                    
+                    // Style the risk level appropriately
+                    const riskElement = document.getElementById('risk-level');
+                    if (scenario.riskLevel.includes("Low")) {
+                        riskElement.style.color = '#059669'; // Green
+                    } else if (scenario.riskLevel.includes("Medium")) {
+                        riskElement.style.color = '#d97706'; // Amber
+                    } else {
+                        riskElement.style.color = '#dc2626'; // Red
+                    }
+                }
+            }
+            
+                // Update approval zones
+                function updateApprovalZones(scenarioId) {
+                const scenario = scenarios[scenarioId] || {};
+                
+                // If this is a pre-defined approval status scenario, show the corresponding status directly
+                if (scenarioId === 'autoapprove') {
+                    // Auto-approve scenario
+                    const statusHTML = `
+                        <div class="status-icon" style="background-color: #dcfce7; color: #15803d;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Auto-Approval Eligible</div>
+                            <p class="status-message">No additional approval needed.</p>
+                        </div>
+                    `;
+                    approvalStatus.innerHTML = statusHTML;
+                    approvalStatus.className = 'approval-status status-auto-approve status-approve';
+                    return;
+                } else if (scenarioId === 'greyzone') {
+                    // Grey zone scenario
+                    const statusHTML = `
+                        <div class="status-icon" style="background-color: #e5e7eb; color: #4b5563;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Manual Review Required</div>
+                            <p class="status-message">Falls in the grey zone. Requires L1/L2 approval through standard workflow.</p>
+                        </div>
+                    `;
+                    approvalStatus.innerHTML = statusHTML;
+                    approvalStatus.className = 'approval-status status-manual-review status-review';
+                    return;
+                } else if (scenarioId === 'autoreject') {
+                    // Auto-reject scenario
+                    const statusHTML = `
+                        <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Auto-Rejection Warning</div>
+                            <p class="status-message">Exceeds allowable limits. Consider adjusting or providing exceptional justification.</p>
+                        </div>
+                    `;
+                    approvalStatus.innerHTML = statusHTML;
+                    approvalStatus.className = 'approval-status status-auto-reject status-reject';
+                    return;
+                }
+                
+                // For other scenarios, calculate based on thresholds
+                // Default thresholds if no scenario selected
+                let roiAutoApproveThreshold = -0.5; // Auto-approve if ROI deviation is greater than this
+                let roiAutoRejectThreshold = -1.5; // Auto-reject if ROI deviation is less than this
+                let pfAutoApproveThreshold = -25; // Auto-approve if PF deviation is greater than this
+                let pfAutoRejectThreshold = -70; // Auto-reject if PF deviation is less than this
+                
+                // Adjust thresholds based on scenario if needed
+                if (scenario.name === "Prime Customer - Conversion Critical") {
+                    roiAutoApproveThreshold = -0.5;
+                    roiAutoRejectThreshold = -1.0;
+                } else if (scenario.name === "Micro-Deviation (Low Impact)") {
+                    roiAutoApproveThreshold = -0.3;
+                    roiAutoRejectThreshold = -0.7;
+                } else if (scenario.name === "Strategic Relationship Case") {
+                    roiAutoApproveThreshold = -0.75;
+                    roiAutoRejectThreshold = -1.75;
+                } else if (scenario.name === "High Risk + Commercial Relaxation") {
+                    roiAutoApproveThreshold = -0.25;
+                    roiAutoRejectThreshold = -0.75;
+                }
+                
+                // Get current deviation values
+                const standardRoi = parseFloat(document.getElementById('standard-roi').value);
+                const newRoi = parseFloat(requestedRoi.value);
+                const roiDeltaValue = newRoi - standardRoi;
+                
+                const standardPf = parseFloat(document.getElementById('standard-pf').value.replace(',', ''));
+                const newPf = parseFloat(requestedPf.value);
+                const pfDeltaPercentValue = ((newPf - standardPf) / standardPf) * 100;
+                
+                // Calculate positions for indicators (percentage across the bar)
+                // ROI zone: 0-30% is auto-reject, 30-75% is manual review, 75-100% is auto-approve
+                const roiRange = roiAutoApproveThreshold - roiAutoRejectThreshold;
+                let roiPosition = ((roiDeltaValue - roiAutoRejectThreshold) / roiRange) * 45 + 30;
+                roiPosition = Math.min(Math.max(roiPosition, 0), 100); // Clamp between 0-100
+                
+                const pfRange = pfAutoApproveThreshold - pfAutoRejectThreshold;
+                let pfPosition = ((pfDeltaPercentValue - pfAutoRejectThreshold) / pfRange) * 45 + 30;
+                pfPosition = Math.min(Math.max(pfPosition, 0), 100); // Clamp between 0-100
+                
+                // Update indicator positions
+                roiIndicator.style.left = roiPosition + '%';
+                pfIndicator.style.left = pfPosition + '%';
+                
+                // Determine overall approval status
+                let statusHTML = '';
+                let approvalClass = '';
+                
+                if (roiDeltaValue > roiAutoApproveThreshold && pfDeltaPercentValue > pfAutoApproveThreshold) {
+                    // Auto approve
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #dcfce7; color: #15803d;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Auto-Approval Eligible</div>
+                            <p class="status-message">No additional approval needed.</p>
+                        </div>
+                    `;
+                    approvalClass = 'status-auto-approve status-approve';
+                } else if (roiDeltaValue < roiAutoRejectThreshold || pfDeltaPercentValue < pfAutoRejectThreshold) {
+                    // Auto reject
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Auto-Rejection Warning</div>
+                            <p class="status-message">Exceeds allowable limits. Consider adjusting or providing exceptional justification.</p>
+                        </div>
+                    `;
+                    approvalClass = 'status-auto-reject status-reject';
+                } else {
+                    // Manual review
+                    let approvalText = scenario.approvalPathway ? scenario.approvalPathway.replace('Requires ', '') : 'manual approval';
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #e5e7eb; color: #4b5563;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Manual Review Required</div>
+                            <p class="status-message">Falls in the grey zone. Requires ${approvalText}.</p>
+                        </div>
+                    `;
+                    approvalClass = 'status-manual-review status-review';
+                }
+                
+                approvalStatus.innerHTML = statusHTML;
+                approvalStatus.className = `approval-status ${approvalClass}`;
+            }
+            
+            // Update impact analysis by scenario ID
+            function updateImpactAnalysisById(scenarioId) {
+                const scenario = scenarios[scenarioId];
+                if (!scenario || !scenario.impactAnalysis) return;
+                
+                // Update impact values
+                document.getElementById('profitability-impact').textContent = scenario.impactAnalysis.profitabilityImpact;
+                document.getElementById('conversion-impact').textContent = scenario.impactAnalysis.conversionLikelihood;
+                document.getElementById('processing-time').textContent = scenario.impactAnalysis.processingTimeImpact;
+                document.getElementById('risk-level').textContent = scenario.riskLevel;
+                
+                // Set appropriate colors for impact values
+                const profitabilityElement = document.getElementById('profitability-impact');
+                if (scenario.impactAnalysis.profitabilityImpact.includes("Minimal") || 
+                    scenario.impactAnalysis.profitabilityImpact.includes("offset")) {
+                    profitabilityElement.className = 'impact-value';
+                } else if (scenario.impactAnalysis.profitabilityImpact.includes("negative")) {
+                    profitabilityElement.className = 'impact-value negative-impact';
+                } else {
+                    profitabilityElement.className = 'impact-value';
+                }
+                
+                // Set colors for conversion impact
+                document.getElementById('conversion-impact').className = 'impact-value positive-impact';
+                
+                // Set colors for risk level
+                const riskElement = document.getElementById('risk-level');
+                if (scenario.riskLevel.includes("Low")) {
+                    riskElement.style.color = '#059669';
+                } else if (scenario.riskLevel.includes("Medium")) {
+                    riskElement.style.color = '#d97706';
+                } else {
+                    riskElement.style.color = '#dc2626';
+                }
+            }
+            
+            // ROI Slider sync - Fixed version
+            const roiSlider = document.getElementById('roi-slider');
+            const requestedRoiDisplay = document.getElementById('requested-roi-display');
+            
+            roiSlider.addEventListener('input', function() {
+                // Use consistent formatting and avoid unexpected conversions
+                const newValue = parseFloat(this.value);
+                const formattedValue = newValue.toFixed(2); // Keep exactly 2 decimal places
+                
+                // Update hidden input with raw value
+                document.getElementById('requested-roi').value = newValue;
+                
+                // Update display with formatted value
+                requestedRoiDisplay.textContent = formattedValue + '%';
+                
+                // Update delta display
+                const standardRoi = parseFloat(document.getElementById('standard-roi').value);
+                const delta = (newValue - standardRoi).toFixed(2);
+                
+                document.getElementById('roi-delta').textContent = delta + '%';
+                
+                // Calculate impacts
+                calculateFinancialImpact();
+            });
+            
+            // PF Slider sync - Fixed version
+            const pfSlider = document.getElementById('pf-slider');
+            const requestedPfDisplay = document.getElementById('requested-pf-display');
+            
+            pfSlider.addEventListener('input', function() {
+                // Get clean numeric value
+                const newValue = parseInt(this.value);
+                
+                // Update hidden input
+                document.getElementById('requested-pf').value = newValue;
+                
+                // Update display with formatted value
+                requestedPfDisplay.textContent = '₹' + numberWithCommas(newValue);
+                
+                // Update delta display
+                const standardPf = parseFloat(document.getElementById('standard-pf').value.replace(/,/g, ''));
+                const deltaPercent = Math.round((newValue - standardPf) / standardPf * 100);
+                
+                document.getElementById('pf-delta').textContent = deltaPercent + '%';
+                
+                // Calculate impacts
+                calculateFinancialImpact();
+            });
+            
+            // Enhanced impact calculation function that updates all financial values on slider change
+            function calculateFinancialImpact() {
+                try {
+                    // Get current values with fallbacks for safety
+                    const standardRoi = parseFloat(document.getElementById('standard-roi').value || "0");
+                    const requestedRoi = parseFloat(document.getElementById('requested-roi').value || "0");
+                    const roiDelta = (requestedRoi - standardRoi).toFixed(2);
+                    
+                    const standardPf = parseFloat((document.getElementById('standard-pf').value || "0").replace(/,/g, ''));
+                    const requestedPf = parseFloat(document.getElementById('requested-pf').value || "0");
+                    const pfDelta = standardPf - requestedPf;
+                    
+                    // Calculate incentive impacts
+                    console.log("Calculating incentive impact:");
+                    console.log("- ROI delta:", roiDelta, "Standard:", standardRoi, "Requested:", requestedRoi);
+                    console.log("- PF delta:", pfDelta, "Standard:", standardPf, "Requested:", requestedPf);
+                    
+                    const roiIncentiveImpact = Math.abs(parseFloat(roiDelta)) * 5000; // ₹500 per 0.1% ROI
+                    const pfIncentiveImpact = Math.abs(pfDelta) * 0.2; // 20% of PF reduction
+                    const totalIncentiveImpact = roiIncentiveImpact + pfIncentiveImpact;
+                    
+                    console.log("- ROI incentive impact: ₹", roiIncentiveImpact.toFixed(0));
+                    console.log("- PF incentive impact: ₹", pfIncentiveImpact.toFixed(0));
+                    console.log("- Total incentive impact: ₹", totalIncentiveImpact.toFixed(0));
+                    
+                    // Calculate revenue impact
+                    const loanAmount = 2500000; // ₹25,00,000
+                    const tenureYears = 5;
+                    const roiImpact = loanAmount * Math.abs(parseFloat(roiDelta)) / 100 * tenureYears;
+                    const totalImpact = roiImpact + pfDelta;
+                    
+                    console.log("- Total revenue impact: ₹", totalImpact.toFixed(0));
+                    
+                    // Format values for display
+                    const incentiveStr = `-₹${numberWithCommas(totalIncentiveImpact.toFixed(0))}`;
+                    const revenueStr = `-₹${numberWithCommas(totalImpact.toFixed(0))}`;
+                    const percentImpact = Math.round(totalIncentiveImpact / 50000 * 100);
+                    
+                    // 1. Update the commercial deviation section
+                    const incentiveImpactEl = document.getElementById('incentive-impact');
+                    const totalImpactEl = document.getElementById('total-impact');
+                    
+                    if (incentiveImpactEl) incentiveImpactEl.textContent = incentiveStr;
+                    if (totalImpactEl) totalImpactEl.textContent = revenueStr;
+                    
+                    // 2. Update the AI recommendation section incentive impact
+                    // This is the element at the top of the page
+                    const topIncentiveEl = document.querySelector('div[style="font-size: 1.1rem; font-weight: 600; text-align: center; color: #b91c1c; margin: 0.5rem 0;"]');
+                    if (topIncentiveEl) {
+                        console.log("Found the top incentive element, updating to:", `${incentiveStr} (${percentImpact}%) Monthly Incentive`);
+                        topIncentiveEl.textContent = `${incentiveStr} (${percentImpact}%) Monthly Incentive`;
+                    } else {
+                        console.log("Could not find top incentive element with style selector");
+                    }
+                    
+                    // Try alternative method if the style selector fails
+                    if (!topIncentiveEl) {
+                        const allDivs = document.querySelectorAll('div');
+                        for (let div of allDivs) {
+                            if (div.textContent.includes("Monthly Incentive")) {
+                                console.log("Found div with Monthly Incentive text:", div);
+                                div.textContent = `${incentiveStr} (${percentImpact}%) Monthly Incentive`;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // 3. Update approval status based on current scenario
+                    const selectedScenarioId = document.getElementById('scenario-selector').value;
+                    if (selectedScenarioId !== 'autoapprove' && 
+                        selectedScenarioId !== 'greyzone' && 
+                        selectedScenarioId !== 'autoreject') {
+                        updateApprovalZones(selectedScenarioId);
+                    }
+                    
+                } catch (error) {
+                    console.error("Error calculating financial impact:", error);
+                }
+            }
+            
+            // Update total impact
+            function updateTotalImpact() {
+                const standardRoi = parseFloat(document.getElementById('standard-roi').value);
+                const newRoi = parseFloat(requestedRoi.value);
+                const roiDelta = (newRoi - standardRoi);
+                
+                const standardPf = parseFloat(document.getElementById('standard-pf').value.replace(',', ''));
+                const newPf = parseFloat(requestedPf.value);
+                const pfImpact = standardPf - newPf;
+                
+                // ROI impact calculation
+                const loanAmount = 2500000; // ₹25,00,000
+                const tenureYears = 5;
+                const roiImpact = loanAmount * (Math.abs(roiDelta) / 100) * tenureYears;
+                
+                // Total impact
+                const totalImpact = roiDelta < 0 ? roiImpact + pfImpact : pfImpact;
+                
+                // Update the UI
+                document.getElementById('total-impact').textContent = `-₹${numberWithCommas(totalImpact.toFixed(0))}`;
+            }
+            
+            // Helper for quick presets
+            function setPreset(percentage) {
+                const standardPf = parseFloat(document.getElementById('standard-pf').value.replace(',', ''));
+                const newPfValue = Math.round((percentage / 100) * standardPf);
+                
+                requestedPf.value = newPfValue;
+                requestedPfDisplay.textContent = numberWithCommas(newPfValue);
+                pfSlider.value = newPfValue;
+                updatePfImpact();
+            }
+            
+            // Helper to format numbers with commas
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Remove all existing event listeners and directly override the onchange function
+            scenarioSelector.onchange = null;
+            
+            // This is a completely new function that directly sets values
+            scenarioSelector.onchange = function() {
+                console.log("SCENARIO CHANGED TO: " + this.value);
+                const scenarioId = this.value;
+                const scenario = scenarios[scenarioId];
+                
+                if (!scenario) return;
+                
+                // DIRECT VALUE SETTING - no function calls that could fail
+                
+                // 1. Update scenario badge
+                const badgeContainer = document.getElementById('scenario-badge-container');
+                badgeContainer.innerHTML = '';
+                const badge = document.createElement('div');
+                badge.className = 'scenario-badge';
+                badge.style.backgroundColor = scenario.iconBackground;
+                badge.style.color = scenario.iconColor;
+                badge.innerHTML = `<i class="fas fa-${scenario.icon}"></i> ${scenario.name}`;
+                badgeContainer.appendChild(badge);
+                
+                // 2. Update description and nudge
+                document.getElementById('scenario-description').textContent = scenario.description;
+                document.getElementById('ai-nudge').innerHTML = `<i class="fas fa-robot me-1"></i> ${scenario.nudgeMessage}`;
+                
+                // 2.5 Update alternative solutions based on scenario
+                const alternativeSolutionsEl = document.getElementById('alternative-solutions');
+                alternativeSolutionsEl.innerHTML = '';
+                
+                if (scenarioId === 'prime') {
+                    alternativeSolutionsEl.innerHTML = `
+                        <li><strong>Offer premium customer features</strong> instead of rate discount (zero documentation, doorstep service)</li>
+                        <li><strong>Propose wealth management services</strong> with preferential rates for high value customers</li>
+                        <li><strong>Suggest premier banking program</strong> with fee waivers across products</li>
+                    `;
+                } else if (scenarioId === 'strategic') {
+                    alternativeSolutionsEl.innerHTML = `
+                        <li><strong>Provide relationship-based pricing</strong> across all existing product holdings</li>
+                        <li><strong>Offer premium cross-sell products</strong> with built-in relationship discount</li>
+                        <li><strong>Suggest no-charge balance transfers</strong> from competitor loans</li>
+                    `;
+                } else if (scenarioId === 'micro') {
+                    alternativeSolutionsEl.innerHTML = `
+                        <li><strong>Apply standard pricing</strong> with faster processing SLAs (same day approval)</li>
+                        <li><strong>Propose digital-only service</strong> with 0.1% better rate</li>
+                        <li><strong>Suggest fee waiver</strong> instead of rate reduction (equal value, better for bank)</li>
+                    `;
+                } else if (scenarioId === 'highrisk') {
+                    alternativeSolutionsEl.innerHTML = `
+                        <li><strong>Require additional collateral/security</strong> instead of rate reduction</li>
+                        <li><strong>Propose step-up pricing</strong> with performance-based rate improvement</li>
+                        <li><strong>Suggest risk-based bundled insurance</strong> with standard loan pricing</li>
+                    `;
+                } else if (scenarioId === 'highticket') {
+                    alternativeSolutionsEl.innerHTML = `
+                        <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
+                        <li><strong>Propose splitting into Home Loan + Top-up</strong> structure for better pricing</li>
+                        <li><strong>Suggest portfolio-based pricing</strong> with commitments for additional business</li>
+                    `;
+                }
+                
+                // 3. DIRECTLY SET COMMERCIAL TERMS - most important part
+                if (scenario.commercialTerms) {
+                    const { standardRoi, requestedRoi, standardPf, requestedPf } = scenario.commercialTerms;
+                    
+                    // ROI values
+                    document.getElementById('standard-roi').value = standardRoi;
+                    document.getElementById('standard-roi-display').textContent = standardRoi.toFixed(2);
+                    document.getElementById('requested-roi').value = requestedRoi;
+                    document.getElementById('requested-roi-display').textContent = requestedRoi.toFixed(2);
+                    document.getElementById('roi-slider').value = requestedRoi;
+                    
+                    // Calculate ROI delta
+                    const roiDelta = (requestedRoi - standardRoi).toFixed(2);
+                    document.getElementById('roi-delta').textContent = roiDelta + '%';
+                    document.getElementById('roi-deviation-display').textContent = roiDelta + '%';
+                    
+                    // Processing Fee values
+                    document.getElementById('standard-pf').value = standardPf;
+                    document.getElementById('standard-pf-display').textContent = numberWithCommas(standardPf);
+                    document.getElementById('requested-pf').value = requestedPf;
+                    document.getElementById('requested-pf-display').textContent = numberWithCommas(requestedPf);
+                    document.getElementById('pf-slider').value = requestedPf;
+                    
+                    // Calculate PF delta
+                    const pfDeltaPercent = Math.round((requestedPf - standardPf) / standardPf * 100);
+                    document.getElementById('pf-delta').textContent = pfDeltaPercent + '%';
+                    document.getElementById('pf-deviation-display').textContent = pfDeltaPercent + '%';
+                    
+                    // Calculate financial impacts
+                    const loanAmount = 2500000;
+                    const tenureYears = 5;
+                    
+                    // ROI impact
+                    const annualImpact = loanAmount * (Math.abs(roiDelta) / 100);
+                    const totalRoiImpact = annualImpact * tenureYears;
+                    document.getElementById('roi-impact-value').textContent = `-₹${numberWithCommas(totalRoiImpact.toFixed(0))}`;
+                    
+                    // EMI difference
+                    const standardEmi = (loanAmount + (loanAmount * standardRoi / 100 * tenureYears)) / (tenureYears * 12);
+                    const newEmi = (loanAmount + (loanAmount * requestedRoi / 100 * tenureYears)) / (tenureYears * 12);
+                    const emiDiff = Math.abs(standardEmi - newEmi).toFixed(0);
+                    document.getElementById('emi-difference').textContent = `-₹${numberWithCommas(emiDiff)}`;
+                    
+                    // PF impact
+                    const pfImpact = standardPf - requestedPf;
+                    
+                    // Total impact
+                    const totalImpact = roiDelta < 0 ? totalRoiImpact + pfImpact : pfImpact;
+                    document.getElementById('total-impact').textContent = `-₹${numberWithCommas(totalImpact.toFixed(0))}`;
+                }
+                
+                // 4. Update impact analysis
+                if (scenario.impactAnalysis) {
+                    document.getElementById('profitability-impact').textContent = scenario.impactAnalysis.profitabilityImpact;
+                    document.getElementById('conversion-impact').textContent = scenario.impactAnalysis.conversionLikelihood;
+                    document.getElementById('processing-time').textContent = scenario.impactAnalysis.processingTimeImpact;
+                    document.getElementById('risk-level').textContent = scenario.riskLevel;
+                }
+                
+                console.log("FINISHED UPDATING VALUES FOR: " + scenarioId);
+                console.log("Commercial terms set to:", JSON.stringify(scenario.commercialTerms));
+            };
+            
+            // Function to directly apply approval status based on scenario type
+            function setApprovalStatus(scenarioId) {
+                console.log("DIRECTLY SETTING APPROVAL STATUS FOR: " + scenarioId);
+                
+                if (scenarioId === 'autoapprove') {
+                    // Auto-approve scenario
+                    approvalStatus.innerHTML = `
+                        <div class="status-icon" style="background-color: #dcfce7; color: #15803d;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Auto-Approval Eligible</div>
+                            <p class="status-message">No additional approval needed.</p>
+                        </div>
+                    `;
+                    approvalStatus.className = 'approval-status status-auto-approve status-approve';
+                } 
+                else if (scenarioId === 'greyzone') {
+                    // Grey zone scenario
+                    approvalStatus.innerHTML = `
+                        <div class="status-icon" style="background-color: #e5e7eb; color: #4b5563;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Manual Review Required</div>
+                            <p class="status-message">Falls in the grey zone. Requires L1/L2 approval through standard workflow.</p>
+                        </div>
+                    `;
+                    approvalStatus.className = 'approval-status status-manual-review status-review';
+                } 
+                else if (scenarioId === 'autoreject') {
+                    // Auto-reject scenario
+                    approvalStatus.innerHTML = `
+                        <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div>
+                            <div class="status-title">Auto-Rejection Warning</div>
+                            <p class="status-message">Exceeds allowable limits. Consider adjusting or providing exceptional justification.</p>
+                        </div>
+                    `;
+                    approvalStatus.className = 'approval-status status-auto-reject status-reject';
+                }
+                else {
+                    // Calculate approval status for other scenarios
+                    updateApprovalZones(scenarioId);
+                }
+            }
+            
+            // COMPLETE OVERRIDE OF THE SELECT DROPDOWN BEHAVIOR - FIXED VERSION
+            scenarioSelector.onchange = function() {
+                console.log("SCENARIO DIRECTLY CHANGED TO: " + this.value);
+                const selectedId = this.value;
+                
+                // Always hide the initial nudge and show scenario details
+                if (initialNudge) initialNudge.style.display = 'none';
+                if (scenarioDetailsCard) scenarioDetailsCard.style.display = 'block';
+                
+                const scenario = scenarios[selectedId];
+                if (!scenario) return;
+                
+                // Update badge
+                const badgeContainer = document.getElementById('scenario-badge-container');
+                if (badgeContainer) {
+                    badgeContainer.innerHTML = '';
+                    const badge = document.createElement('div');
+                    badge.className = 'scenario-badge';
+                    badge.style.backgroundColor = scenario.iconBackground;
+                    badge.style.color = scenario.iconColor;
+                    badge.innerHTML = `<i class="fas fa-${scenario.icon}"></i> ${scenario.name}`;
+                    badgeContainer.appendChild(badge);
+                }
+                
+                // Update description and nudge
+                const descriptionEl = document.getElementById('scenario-description');
+                const nudgeEl = document.getElementById('ai-nudge');
+                if (descriptionEl) descriptionEl.textContent = scenario.description;
+                if (nudgeEl) nudgeEl.innerHTML = `<i class="fas fa-robot me-1"></i> ${scenario.nudgeMessage}`;
+                
+                // Update commercial terms with proper error checking
+                if (scenario.commercialTerms) {
+                    const { standardRoi, requestedRoi, standardPf, requestedPf } = scenario.commercialTerms;
+                    
+                    // Update ROI fields with careful formatting
+                    const stdRoiEl = document.getElementById('standard-roi');
+                    const stdRoiDispEl = document.getElementById('standard-roi-display');
+                    const reqRoiEl = document.getElementById('requested-roi');
+                    const reqRoiDispEl = document.getElementById('requested-roi-display');
+                    const roiSliderEl = document.getElementById('roi-slider');
+                    const roiDeltaEl = document.getElementById('roi-delta');
+                    
+                    if (stdRoiEl) stdRoiEl.value = standardRoi;
+                    if (stdRoiDispEl) stdRoiDispEl.textContent = standardRoi.toFixed(2) + '%';
+                    if (reqRoiEl) reqRoiEl.value = requestedRoi;
+                    if (reqRoiDispEl) reqRoiDispEl.textContent = requestedRoi.toFixed(2) + '%';
+                    if (roiSliderEl) roiSliderEl.value = requestedRoi;
+                    if (roiDeltaEl) roiDeltaEl.textContent = (requestedRoi - standardRoi).toFixed(2) + '%';
+                    
+                    // Update PF fields with careful formatting
+                    const stdPfEl = document.getElementById('standard-pf');
+                    const stdPfDispEl = document.getElementById('standard-pf-display');
+                    const reqPfEl = document.getElementById('requested-pf');
+                    const reqPfDispEl = document.getElementById('requested-pf-display');
+                    const pfSliderEl = document.getElementById('pf-slider');
+                    const pfDeltaEl = document.getElementById('pf-delta');
+                    
+                    if (stdPfEl) stdPfEl.value = standardPf;
+                    if (stdPfDispEl) stdPfDispEl.textContent = '₹' + numberWithCommas(standardPf);
+                    if (reqPfEl) reqPfEl.value = requestedPf;
+                    if (reqPfDispEl) reqPfDispEl.textContent = '₹' + numberWithCommas(requestedPf);
+                    if (pfSliderEl) pfSliderEl.value = requestedPf;
+                    if (pfDeltaEl) pfDeltaEl.textContent = Math.round((requestedPf - standardPf) / standardPf * 100) + '%';
+                    
+                    // Calculate financial impacts
+                    calculateFinancialImpact();
+                }
+                
+                // DIRECTLY SET THE APPROVAL STATUS BASED ON SCENARIO ID
+                if (approvalStatus) {
+                    if (selectedId === 'autoapprove') {
+                        approvalStatus.innerHTML = `
+                            <div class="status-icon" style="background-color: #dcfce7; color: #15803d;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <div class="status-title">Auto-Approval Eligible</div>
+                                <p class="status-message">No additional approval needed.</p>
+                            </div>
+                        `;
+                        approvalStatus.className = 'approval-status status-auto-approve status-approve';
+                    } 
+                    else if (selectedId === 'greyzone') {
+                        approvalStatus.innerHTML = `
+                            <div class="status-icon" style="background-color: #e5e7eb; color: #4b5563;">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div>
+                                <div class="status-title">Manual Review Required</div>
+                                <p class="status-message">Falls in the grey zone. Requires L1/L2 approval through standard workflow.</p>
+                            </div>
+                        `;
+                        approvalStatus.className = 'approval-status status-manual-review status-review';
+                    } 
+                    else if (selectedId === 'autoreject') {
+                        approvalStatus.innerHTML = `
+                            <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <div>
+                                <div class="status-title">Auto-Rejection Warning</div>
+                                <p class="status-message">Exceeds allowable limits. Consider adjusting or providing exceptional justification.</p>
+                            </div>
+                        `;
+                        approvalStatus.className = 'approval-status status-auto-reject status-reject';
+                    }
+                    else {
+                        // Default status for regular scenarios
+                        approvalStatus.innerHTML = `
+                            <div class="status-icon" style="background-color: #e5e7eb; color: #4b5563;">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div>
+                                <div class="status-title">Manual Review Required</div>
+                                <p class="status-message">This deviation requires manual approval based on your current adjustments.</p>
+                            </div>
+                        `;
+                        approvalStatus.className = 'approval-status status-manual-review status-review';
+                    }
+                }
+                
+                // Update alternative solutions
+                const alternativeSolutionsEl = document.getElementById('alternative-solutions');
+                if (alternativeSolutionsEl) {
+                    alternativeSolutionsEl.innerHTML = '';
+                    
+                    if (selectedId === 'prime') {
+                        alternativeSolutionsEl.innerHTML = `
+                            <li><strong>Offer premium customer features</strong> instead of rate discount (zero documentation, doorstep service)</li>
+                            <li><strong>Propose wealth management services</strong> with preferential rates for high value customers</li>
+                            <li><strong>Suggest premier banking program</strong> with fee waivers across products</li>
+                        `;
+                    } else if (selectedId === 'strategic') {
+                        alternativeSolutionsEl.innerHTML = `
+                            <li><strong>Provide relationship-based pricing</strong> across all existing product holdings</li>
+                            <li><strong>Offer premium cross-sell products</strong> with built-in relationship discount</li>
+                            <li><strong>Suggest no-charge balance transfers</strong> from competitor loans</li>
+                        `;
+                    } else if (selectedId === 'micro') {
+                        alternativeSolutionsEl.innerHTML = `
+                            <li><strong>Apply standard pricing</strong> with faster processing SLAs (same day approval)</li>
+                            <li><strong>Propose digital-only service</strong> with 0.1% better rate</li>
+                            <li><strong>Suggest fee waiver</strong> instead of rate reduction (equal value, better for bank)</li>
+                        `;
+                    } else if (selectedId === 'highrisk') {
+                        alternativeSolutionsEl.innerHTML = `
+                            <li><strong>Require additional collateral/security</strong> instead of rate reduction</li>
+                            <li><strong>Propose step-up pricing</strong> with performance-based rate improvement</li>
+                            <li><strong>Suggest risk-based bundled insurance</strong> with standard loan pricing</li>
+                        `;
+                    } else if (selectedId === 'highticket') {
+                        alternativeSolutionsEl.innerHTML = `
+                            <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
+                            <li><strong>Propose splitting into Home Loan + Top-up</strong> structure for better pricing</li>
+                            <li><strong>Suggest portfolio-based pricing</strong> with commitments for additional business</li>
+                        `;
+                    } else {
+                        alternativeSolutionsEl.innerHTML = `
+                            <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
+                            <li><strong>Propose Home Loan + Top-up</strong> structure for better overall pricing</li>
+                        `;
+                    }
+                }
+                
+                console.log("FINISHED UPDATING FOR SCENARIO: " + selectedId + " (Name: " + scenario.name + ")");
+            };
+            
+            // Initialize with Prime Customer scenario
+            scenarioSelector.value = 'prime';
+            scenarioSelector.onchange();
+            
+            // Re-attach change event to trigger onchange handler
+            scenarioSelector.addEventListener('change', function() {
+                // This is just to make sure we call the onchange handler
+                scenarioSelector.onchange();
+            });
+            
+            // Add functionality to the "Use Standard Pricing" button
+            document.getElementById('use-standard-pricing').addEventListener('click', function() {
+                const selectedId = scenarioSelector.value;
+                const scenario = scenarios[selectedId] || {};
+                
+                if (scenario.commercialTerms) {
+                    const { standardRoi, standardPf } = scenario.commercialTerms;
+                    
+                    // Reset ROI to standard
+                    document.getElementById('requested-roi').value = standardRoi;
+                    document.getElementById('requested-roi-display').textContent = standardRoi.toFixed(2) + '%';
+                    document.getElementById('roi-slider').value = standardRoi;
+                    document.getElementById('roi-delta').textContent = '0.00%';
+                    
+                    // Reset PF to standard
+                    document.getElementById('requested-pf').value = standardPf;
+                    document.getElementById('requested-pf-display').textContent = '₹' + numberWithCommas(standardPf);
+                    document.getElementById('pf-slider').value = standardPf;
+                    document.getElementById('pf-delta').textContent = '0%';
+                    
+                    // Update calculations
+                    calculateFinancialImpact();
+                    
+                    // Show success message
+                    alert('Reset to standard pricing. No deviation needed.');
+                }
+            });
+            
+            // Add functionality to the "Request Deviation" button
+            document.getElementById('request-deviation').addEventListener('click', function() {
+                // Get justification text
+                const justification = document.getElementById('justification').value.trim();
+                
+                if (!justification) {
+                    alert('Please provide justification for this deviation request.');
+                    return;
+                }
+                
+                // Get approval status
+                const approvalClass = document.getElementById('approval-status').className;
+                let message = 'Deviation request submitted successfully.';
+                
+                if (approvalClass.includes('status-auto-approve')) {
+                    message += ' This request is eligible for auto-approval.';
+                } else if (approvalClass.includes('status-auto-reject')) {
+                    message += ' Note: This request exceeds standard thresholds and may require exceptional approval.';
+                } else {
+                    message += ' Your request will be reviewed by the appropriate approver.';
+                }
+                
+                alert(message);
+            });
+            
+            console.log("Initialization complete. Prime scenario should be loaded.");
+        });
+    </script>

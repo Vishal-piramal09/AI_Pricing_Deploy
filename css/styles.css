@@ -1,0 +1,665 @@
+/* AI Pricing Scenarios - Main Stylesheet */
+
+/* Global Styles & Variables */
+:root {
+    --primary-color: #1e40af;
+    --primary-light: #3b82f6;
+    --primary-dark: #1e3a8a;
+    --secondary-color: #059669;
+    --secondary-light: #10b981;
+    --secondary-dark: #065f46;
+    --warning-color: #f59e0b;
+    --warning-dark: #d97706;
+    --danger-color: #dc2626;
+    --danger-dark: #b91c1c;
+    --neutral-100: #f3f4f6;
+    --neutral-200: #e5e7eb;
+    --neutral-300: #d1d5db;
+    --neutral-400: #9ca3af;
+    --neutral-500: #6b7280;
+    --neutral-600: #4b5563;
+    --neutral-700: #374151;
+    --neutral-800: #1f2937;
+    --neutral-900: #111827;
+    --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --box-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+    --header-height: 70px;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: var(--neutral-800);
+    background-color: #f8fafc;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--neutral-900);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning-color), var(--warning-dark));
+    color: white;
+    border: none;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Card Styles */
+.card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--neutral-200);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--box-shadow-lg);
+    transform: translateY(-3px);
+}
+
+.card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--neutral-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(243, 244, 246, 0.5);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-title i {
+    color: var(--primary-light);
+}
+
+/* Landing Page Styles */
+.landing-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.landing-logo {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: var(--neutral-600);
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.interface-options {
+    margin-bottom: 4rem;
+}
+
+.interface-card {
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+.rm-card {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border: 1px solid #bae6fd;
+}
+
+.approver-card {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border: 1px solid #bbf7d0;
+}
+
+.interface-card:hover {
+    box-shadow: var(--box-shadow-lg);
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.rm-card .card-icon {
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    color: white;
+}
+
+.approver-card .card-icon {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.interface-card h2 {
+    margin-bottom: 1rem;
+}
+
+.interface-card p {
+    margin-bottom: 2rem;
+    color: var(--neutral-600);
+    flex: 1;
+}
+
+.interface-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.rm-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.rm-btn:hover {
+    background-color: var(--primary-dark);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.approver-btn {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.approver-btn:hover {
+    background-color: var(--secondary-dark);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Scenario Overview Section */
+.scenario-overview {
+    background-color: white;
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.scenario-overview h2 {
+    margin-bottom: 2rem;
+    color: var(--primary-dark);
+}
+
+.scenario-counts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.scenario-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3rem;
+}
+
+.count {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.count-label {
+    color: var(--neutral-600);
+    font-weight: 500;
+}
+
+.scenario-divider {
+    width: 1px;
+    height: 80px;
+    background-color: var(--neutral-300);
+}
+
+.scenario-description {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--neutral-600);
+}
+
+.footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--neutral-500);
+    font-size: 0.9rem;
+}
+
+/* RM Interface Styles */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: white;
+    box-shadow: var(--box-shadow-lg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+.app-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-title h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: white;
+}
+
+.header-title .badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.35rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-body {
+    display: flex;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.sidebar {
+    width: 280px;
+    background-color: #f8fafc;
+    border-right: 1px solid var(--neutral-200);
+    padding: 1.5rem;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* Scenario Detection Panel */
+.scenario-detector {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--primary-light);
+}
+
+.scenario-detector h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--primary-dark);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.scenario-detector h2 i {
+    color: var(--primary-light);
+}
+
+.detected-scenario {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.scenario-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.scenario-details {
+    flex: 1;
+}
+
+.scenario-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--neutral-800);
+}
+
+.scenario-description {
+    font-size: 0.9rem;
+    color: var(--neutral-600);
+}
+
+/* Impact Analysis Section */
+.impact-analysis {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background-color: var(--neutral-200);
+}
+
+.impact-cell {
+    background-color: white;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.impact-label {
+    color: var(--neutral-600);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.impact-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.positive-impact {
+    color: var(--secondary-color);
+}
+
+.negative-impact {
+    color: var(--danger-color);
+}
+
+.neutral-impact {
+    color: var(--neutral-800);
+}
+
+/* AI Recommendation Box */
+.ai-recommendation {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-recommendation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    z-index: 1;
+}
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    z-index: 2;
+}
+
+.ai-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.ai-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--primary-dark);
+}
+
+.ai-insight {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .app-body {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+    }
+    
+    .interface-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .scenario-count {
+        padding: 0 2rem;
+    }
+    
+    .app-container {
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .scenario-counts {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .scenario-divider {
+        width: 80px;
+        height: 1px;
+    }
+    
+    .landing-logo {
+        font-size: 3rem;
+    }
+    
+    .interface-options .col-md-6:first-child {
+        margin-bottom: 1.5rem;
+    }
+    
+    .header-title h1 {
+        font-size: 1.25rem;
+    }
+    
+    .impact-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .scenario-overview {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .landing-container {
+        padding: 1.5rem;
+    }
+    
+    .interface-card {
+        padding: 1.5rem;
+    }
+    
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

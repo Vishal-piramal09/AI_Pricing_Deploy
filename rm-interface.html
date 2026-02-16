@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RM Interface - AI Pricing Scenarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Additional styles specific to RM interface */
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .low-risk {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .medium-risk {
+            background-color: #fef9c3;
+            color: #854d0e;
+            border: 1px solid #fef08a;
+        }
+        
+        .high-risk {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        
+        .very-high-risk {
+            background-color: #fecaca;
+            color: #7f1d1d;
+            border: 1px solid #fca5a5;
+        }
+        
+        .critical-risk {
+            background-color: #ef4444;
+            color: white;
+            border: 1px solid #dc2626;
+        }
+        
+        .risk-level {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        /* Approval Zone Styles */
+        .approval-zone-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .approval-zone-bar {
+            height: 40px;
+            width: 100%;
+            background: linear-gradient(to right, #ef4444 0%, #ef4444 30%, #9ca3af 30%, #9ca3af 75%, #10b981 75%, #10b981 100%);
+            border-radius: 5px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .approval-zone-marker {
+            position: absolute;
+            top: -15px;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #1e40af;
+        }
+        
+        .approval-zone-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .approval-zone-label {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .auto-reject {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        
+        .manual-review {
+            background-color: #e5e7eb;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+        }
+        
+        .auto-approve {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .approval-indicator {
+            background-color: white;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            bottom: -10px;
+            transform: translateX(-50%);
+        }
+        
+        .approval-status-card {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-icon {
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .alert-nudge {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-left: 4px solid #3b82f6;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .alert-nudge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        .alert-nudge .nudge-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .approval-pathway {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .recommendation-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+        
+        .recommendation-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .recommendation-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .recommendation-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary-light);
+        }
+        
+        .customer-profile {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-item {
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid var(--neutral-200);
+        }
+        
+        .profile-label {
+            font-size: 0.7rem;
+            color: var(--neutral-600);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        
+        .profile-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .case-header {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .case-info h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .case-subtitle {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .deviation-input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .deviation-input-group .input-label {
+            min-width: 150px;
+        }
+        
+        .input-with-badge {
+            position: relative;
+            flex: 1;
+        }
+        
+        .input-with-badge input {
+            width: 100%;
+            padding-right: 70px;
+        }
+        
+        .input-badge {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--neutral-200);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+        
+        .input-delta {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            width: 100px;
+            text-align: center;
+        }
+        
+        .delta-negative {
+            color: var(--danger-color);
+            background: #fee2e2;
+            border-color: #fecaca;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-title">
+                <a href="index.html" class="back-button" title="Back to Home">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1>RM Interface <span class="badge">AI-Powered</span></h1>
+            </div>
+            <div class="header-actions">
+                <button type="button" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-question-circle"></i>
+                    Help
+                </button>
+            </div>
+        </header>
+        
+        <div class="app-body">
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Scenario Selection</h3>
+                    <div class="form-group mb-3">
+                        <label for="scenario-selector" class="form-label fw-bold">Select Scenario:</label>
+                        <select class="form-select form-select-lg" id="scenario-selector" style="font-size: 1rem; background-color: #f0f9ff; border: 2px solid #3b82f6;">
+                            <option value="">Auto-detect (Default)</option>
+                            <!-- Scenario options will be added via JS -->
+                        </select>
+                        <div class="small text-muted mt-1">Choose any scenario to see how guidance changes</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section mt-4">
+                    <h3>Detected Scenarios</h3>
+                    <div id="scenario-list">
+                        <!-- Scenarios will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="sidebar-section mt-4">
+                    <h3>Case Actions</h3>
+                    <div class="d-grid gap-2">
+                        <button id="submit-for-approval" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit for Approval
+                        </button>
+                        <button id="save-draft" class="btn btn-outline-secondary">
+                            <i class="fas fa-save"></i>
+                            Save Draft
+                        </button>
+                    </div>
+                </div>
+            </aside>
+            
+            <main class="main-content">
+                <div class="scenario-selection-bar mb-4 p-3" style="background-color: #f0f9ff; border-radius: 8px; border: 1px solid #bae6fd;">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <label for="main-scenario-selector" class="form-label mb-0 fw-bold">Select Scenario:</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select class="form-select form-select-lg" id="main-scenario-selector" style="border: 2px solid #3b82f6;">
+                                <option value="">Auto-detect (Default)</option>
+                                <!-- Scenario options will be added via JS -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="case-header">
+                    <div class="case-info">
+                        <h2>Rajendra Kumar</h2>
+                        <div class="case-subtitle">CUST10045678 | Home Renovation Loan</div>
+                    </div>
+                    <div class="case-status">
+                        <span class="badge bg-warning text-dark">Pending Review</span>
+                    </div>
+                </div>
+                
+                <!-- AI Scenario Detection Section -->
+                <!-- Initial Nudge Layer - Why NOT to raise a deviation -->
+                <div class="alert alert-warning mb-4" id="initial-nudge" style="border-left: 4px solid #f59e0b; background-color: #fffbeb;">
+                    <h4 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Consider Alternatives Before Deviation</h4>
+                    <hr>
+                    <p class="mb-2"><strong>Have you explored these alternatives?</strong></p>
+                    <ul class="mb-3">
+                        <li>Offer a <strong>different tenor</strong> to achieve customer's EMI goal (longer tenor instead of rate cut)</li>
+                        <li>Suggest a <strong>different product</strong> that better suits the customer's profile</li>
+                        <li>Propose <strong>bundled offers</strong> to maintain standard pricing with added value</li>
+                        <li>Consider <strong>structured payment options</strong> instead of rate reductions</li>
+                    </ul>
+                    <p class="mb-1"><strong>Why avoid deviations when possible:</strong></p>
+                    <div class="row mt-2">
+                        <div class="col-md-4 mb-2">
+                            <div class="p-2 rounded" style="background-color: #fee2e2; border: 1px solid #fecaca;">
+                                <i class="fas fa-chart-line me-1"></i> <strong>Revenue Impact</strong>: ₹1,550 Cr annual portfolio impact from deviations
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <div class="p-2 rounded" style="background-color: #e0f2fe; border: 1px solid #bae6fd;">
+                                <i class="fas fa-clock me-1"></i> <strong>Time Efficiency</strong>: 3.2 days average approval time for deviations
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <div class="p-2 rounded" style="background-color: #dcfce7; border: 1px solid #bbf7d0;">
+                                <i class="fas fa-check-circle me-1"></i> <strong>Conversion Rate</strong>: 85% for standard pricing vs. 88% for deviations
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scenario-detector">
+                    <h2>
+                        <i class="fas fa-robot"></i>
+                        AI Scenario Detection
+                    </h2>
+                    <p>Our AI has analyzed this case and detected the following scenarios that may impact your pricing decision:</p>
+                    
+                    <div id="primary-scenario" class="detected-scenario">
+                        <!-- Primary scenario details will be populated here -->
+                    </div>
+                    
+                    <div id="secondary-scenarios" class="mt-3">
+                        <!-- Secondary scenarios badges will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- AI Recommendation Section -->
+                <div id="ai-recommendation" class="ai-recommendation">
+                    <div class="ai-header">
+                        <div class="ai-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="ai-title">Personalized Pricing Guidance</div>
+                    </div>
+                    <div id="nudge-message" class="ai-insight">
+                        <!-- Nudge message will be populated here -->
+                    </div>
+                    <div id="approval-pathway" class="approval-pathway">
+                        <!-- Approval pathway details will be populated here -->
+                    </div>
+                    <div class="mt-3">
+                        <h5>Recommendations</h5>
+                        <ul id="recommendations" class="recommendation-list">
+                            <!-- Recommendations will be populated here -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Customer Profile -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-user-circle"></i>
+                            Customer Profile
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="customer-profile">
+                            <div class="profile-item">
+                                <div class="profile-label">Loan Amount</div>
+                                <div class="profile-value">₹25,00,000</div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-label">Tenure</div>
+                                <div class="profile-value">60 months</div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-label">Bureau Score</div>
+                                <div class="profile-value">745</div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-label">FOIR</div>
+                                <div class="profile-value">55%</div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-label">Relationship</div>
+                                <div class="profile-value">Premium</div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-label">Previous Loans</div>
+                                <div class="profile-value">2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Commercial Deviation Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-percentage"></i>
+                            Commercial Deviation
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="deviation-form">
+                            <div class="deviation-input-group">
+                                <div class="input-label">Standard ROI:</div>
+                                <div class="input-with-badge">
+                                    <input type="text" class="form-control" id="standard-roi" value="12.00" disabled>
+                                    <div class="input-badge">%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="deviation-input-group">
+                                <div class="input-label">Requested ROI:</div>
+                                <div class="input-with-badge">
+                                    <input type="number" class="form-control" id="requested-roi" value="11.25" step="0.05" min="8" max="15">
+                                    <div class="input-badge">%</div>
+                                </div>
+                                <div class="input-delta delta-negative" id="roi-delta">-0.75%</div>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="deviation-input-group">
+                                <div class="input-label">Standard Processing Fee:</div>
+                                <div class="input-with-badge">
+                                    <input type="text" class="form-control" id="standard-pf" value="25,000" disabled>
+                                    <div class="input-badge">₹</div>
+                                </div>
+                            </div>
+                            
+                            <div class="deviation-input-group">
+                                <div class="input-label">Requested Processing Fee:</div>
+                                <div class="input-with-badge">
+                                    <input type="number" class="form-control" id="requested-pf" value="10000" step="1000" min="0">
+                                    <div class="input-badge">₹</div>
+                                </div>
+                                <div class="input-delta delta-negative" id="pf-delta">-60%</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Impact Analysis -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-line"></i>
+                            Impact Analysis
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="impact-grid">
+                            <div class="impact-cell">
+                                <div class="impact-label">Profitability Impact</div>
+                                <div class="impact-value negative-impact" id="profitability-impact">-₹1,20,000</div>
+                            </div>
+                            <div class="impact-cell">
+                                <div class="impact-label">Conversion Likelihood</div>
+                                <div class="impact-value positive-impact" id="conversion-impact">+35%</div>
+                            </div>
+                            <div class="impact-cell">
+                                <div class="impact-label">Processing Time</div>
+                                <div class="impact-value neutral-impact" id="processing-time">Expedited</div>
+                            </div>
+                            <div class="impact-cell">
+                                <div class="impact-label">Approval Probability</div>
+                                <div class="impact-value neutral-impact" id="approval-probability">Medium</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Justification -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-comment-alt"></i>
+                            Justification
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Approval Zone Visualization -->
+                        <div class="approval-zone-container">
+                            <h5 class="mb-3">Deviation Approval Zones</h5>
+                            <div class="approval-zone-bar" id="roi-approval-zone">
+                                <div class="approval-indicator" id="roi-indicator" style="left: 50%;"></div>
+                            </div>
+                            <div class="approval-zone-labels">
+                                <div class="approval-zone-label auto-reject">Auto-Reject</div>
+                                <div class="approval-zone-label manual-review">Manual Review</div>
+                                <div class="approval-zone-label auto-approve">Auto-Approve</div>
+                            </div>
+                            <div class="small text-muted text-center">ROI Deviation: <span id="roi-deviation-display">-0.75%</span></div>
+                            
+                            <div class="mt-4 mb-2">
+                                <div class="approval-zone-bar" id="pf-approval-zone">
+                                    <div class="approval-indicator" id="pf-indicator" style="left: 40%;"></div>
+                                </div>
+                                <div class="approval-zone-labels">
+                                    <div class="approval-zone-label auto-reject">Auto-Reject</div>
+                                    <div class="approval-zone-label manual-review">Manual Review</div>
+                                    <div class="approval-zone-label auto-approve">Auto-Approve</div>
+                                </div>
+                                <div class="small text-muted text-center">Processing Fee Deviation: <span id="pf-deviation-display">-60%</span></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Approval Status -->
+                        <div id="approval-status" class="approval-status-card" style="background-color: #f0f9ff; border: 1px solid #bae6fd;">
+                            <div class="status-icon" style="background-color: #e0f2fe; color: #0369a1;">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Manual Review Required</h6>
+                                <p class="mb-0 small">This deviation falls in the grey zone and requires manual approval by L2 authority.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <textarea class="form-control" id="justification" rows="4" placeholder="Enter your justification for this deviation..."></textarea>
+                        </div>
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            A strong justification significantly increases approval likelihood. Consider including competitive offers, customer relationship value, and strategic importance.
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scenarios.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detect applicable scenarios
+            const detectedScenarios = detectScenarios(sampleData);
+            console.log("Detected RM Scenarios:", detectedScenarios.rm);
+            
+            // Get primary scenario
+            const primaryScenario = detectedScenarios.rm[0];
+            
+            // Populate primary scenario
+            if (primaryScenario) {
+                document.getElementById('primary-scenario').innerHTML = `
+                    <div class="scenario-icon" style="background-color: ${primaryScenario.iconBackground}; color: ${primaryScenario.iconColor};">
+                        <i class="fas fa-${primaryScenario.icon}"></i>
+                    </div>
+                    <div class="scenario-details">
+                        <div class="scenario-name">${primaryScenario.name}</div>
+                        <div class="scenario-description">${primaryScenario.description}</div>
+                        <div class="mt-2">
+                            <span class="risk-level ${primaryScenario.riskLevel.toLowerCase().replace(' ', '-')}-risk">
+                                ${primaryScenario.riskLevel.toUpperCase()} RISK
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                // Populate nudge message
+                document.getElementById('nudge-message').innerHTML = `
+                    <p>${primaryScenario.nudgeMessage}</p>
+                `;
+                
+                // Populate approval pathway
+                document.getElementById('approval-pathway').innerHTML = `
+                    <strong>Approval Pathway:</strong>
+                    <p class="mb-0">${primaryScenario.approvalPathway}</p>
+                `;
+                
+                // Populate recommendations
+                const recommendationsList = document.getElementById('recommendations');
+                recommendationsList.innerHTML = '';
+                primaryScenario.recommendations.forEach(rec => {
+                    const li = document.createElement('li');
+                    li.textContent = rec;
+                    recommendationsList.appendChild(li);
+                });
+                
+                // Update impact values
+                document.getElementById('profitability-impact').textContent = primaryScenario.impactAnalysis.profitabilityImpact;
+                document.getElementById('conversion-impact').textContent = primaryScenario.impactAnalysis.conversionLikelihood;
+                document.getElementById('processing-time').textContent = primaryScenario.impactAnalysis.processingTimeImpact;
+                
+                // Set appropriate colors for impact values
+                if (primaryScenario.impactAnalysis.profitabilityImpact.includes("Minimal") || 
+                    primaryScenario.impactAnalysis.profitabilityImpact.includes("Offset")) {
+                    document.getElementById('profitability-impact').className = 'impact-value neutral-impact';
+                } else if (primaryScenario.impactAnalysis.profitabilityImpact.includes("negative")) {
+                    document.getElementById('profitability-impact').className = 'impact-value negative-impact';
+                }
+                
+                // Populate scenario list in sidebar
+                const scenarioList = document.getElementById('scenario-list');
+                scenarioList.innerHTML = '';
+                
+                detectedScenarios.rm.forEach(scenario => {
+                    const scenarioItem = document.createElement('div');
+                    scenarioItem.className = 'scenario-badge';
+                    scenarioItem.style.backgroundColor = scenario.iconBackground;
+                    scenarioItem.style.color = scenario.iconColor;
+                    scenarioItem.innerHTML = `
+                        <i class="fas fa-${scenario.icon} me-1"></i>
+                        ${scenario.name}
+                    `;
+                    scenarioList.appendChild(scenarioItem);
+                });
+            }
+            
+            // Secondary scenarios as badges
+            const secondaryScenarios = detectedScenarios.rm.slice(1);
+            const secondaryContainer = document.getElementById('secondary-scenarios');
+            secondaryContainer.innerHTML = '';
+            
+            if (secondaryScenarios.length > 0) {
+                const secondaryHeader = document.createElement('h6');
+                secondaryHeader.textContent = 'Additional Detected Scenarios:';
+                secondaryHeader.className = 'mb-2 mt-3';
+                secondaryContainer.appendChild(secondaryHeader);
+                
+                secondaryScenarios.forEach(scenario => {
+                    const badge = document.createElement('span');
+                    badge.className = 'scenario-badge';
+                    badge.style.backgroundColor = scenario.iconBackground;
+                    badge.style.color = scenario.iconColor;
+                    badge.innerHTML = `
+                        <i class="fas fa-${scenario.icon} me-1"></i>
+                        ${scenario.name}
+                    `;
+                    secondaryContainer.appendChild(badge);
+                });
+            }
+            
+            // Set up event listeners for form inputs
+            const requestedRoi = document.getElementById('requested-roi');
+            const requestedPf = document.getElementById('requested-pf');
+            const roiDelta = document.getElementById('roi-delta');
+            const pfDelta = document.getElementById('pf-delta');
+            const roiDeviationDisplay = document.getElementById('roi-deviation-display');
+            const pfDeviationDisplay = document.getElementById('pf-deviation-display');
+            const roiIndicator = document.getElementById('roi-indicator');
+            const pfIndicator = document.getElementById('pf-indicator');
+            const approvalStatus = document.getElementById('approval-status');
+            
+            // Function to update approval zones based on scenario and deviation values
+            function updateApprovalZones(selectedScenario) {
+                // Default thresholds if no scenario selected
+                let roiAutoApproveThreshold = -0.5; // Auto-approve if ROI deviation is greater than this
+                let roiAutoRejectThreshold = -1.5; // Auto-reject if ROI deviation is less than this
+                let pfAutoApproveThreshold = -25; // Auto-approve if PF deviation is greater than this
+                let pfAutoRejectThreshold = -70; // Auto-reject if PF deviation is less than this
+                
+                // Adjust thresholds based on scenario if needed
+                if (selectedScenario && selectedScenario.name === "Prime Customer - Conversion Critical") {
+                    roiAutoApproveThreshold = -0.5;
+                    roiAutoRejectThreshold = -1.0;
+                } else if (selectedScenario && selectedScenario.name === "Micro-Deviation (Low Impact)") {
+                    roiAutoApproveThreshold = -0.3;
+                    roiAutoRejectThreshold = -0.7;
+                } else if (selectedScenario && selectedScenario.name === "Strategic Relationship Case") {
+                    roiAutoApproveThreshold = -0.75;
+                    roiAutoRejectThreshold = -1.75;
+                } else if (selectedScenario && selectedScenario.name === "High Risk + Commercial Relaxation") {
+                    roiAutoApproveThreshold = -0.25;
+                    roiAutoRejectThreshold = -0.75;
+                } else if (selectedScenario && selectedScenario.name === "Repeat Top-Up with Pricing Cut") {
+                    roiAutoApproveThreshold = -0.75;
+                    roiAutoRejectThreshold = -1.5;
+                }
+                
+                // Get current deviation values
+                const standardRoi = parseFloat(document.getElementById('standard-roi').value);
+                const newRoi = parseFloat(requestedRoi.value);
+                const roiDeltaValue = newRoi - standardRoi;
+                
+                const standardPf = parseFloat(document.getElementById('standard-pf').value.replace(',', ''));
+                const newPf = parseFloat(requestedPf.value);
+                const pfDeltaPercentValue = ((newPf - standardPf) / standardPf) * 100;
+                
+                // Calculate positions for indicators (percentage across the bar)
+                // ROI zone: 0-30% is auto-reject, 30-75% is manual review, 75-100% is auto-approve
+                const roiRange = roiAutoApproveThreshold - roiAutoRejectThreshold;
+                let roiPosition = ((roiDeltaValue - roiAutoRejectThreshold) / roiRange) * 45 + 30;
+                roiPosition = Math.min(Math.max(roiPosition, 0), 100); // Clamp between 0-100
+                
+                const pfRange = pfAutoApproveThreshold - pfAutoRejectThreshold;
+                let pfPosition = ((pfDeltaPercentValue - pfAutoRejectThreshold) / pfRange) * 45 + 30;
+                pfPosition = Math.min(Math.max(pfPosition, 0), 100); // Clamp between 0-100
+                
+                // Update indicator positions
+                roiIndicator.style.left = roiPosition + '%';
+                pfIndicator.style.left = pfPosition + '%';
+                
+                // Determine overall approval status
+                let statusHTML = '';
+                let approvalPathwayText = selectedScenario ? selectedScenario.approvalPathway.replace('Requires ', '') : 'manual approval by L2 authority';
+                
+                if (roiDeltaValue > roiAutoApproveThreshold && pfDeltaPercentValue > pfAutoApproveThreshold) {
+                    // Auto approve
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #d1fae5; color: #065f46;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Auto-Approval Eligible</h6>
+                            <p class="mb-0 small">This deviation meets auto-approval criteria. No additional approval needed.</p>
+                        </div>
+                    `;
+                    approvalStatus.style.backgroundColor = '#f0fdf4';
+                    approvalStatus.style.border = '1px solid #a7f3d0';
+                } else if (roiDeltaValue < roiAutoRejectThreshold || pfDeltaPercentValue < pfAutoRejectThreshold) {
+                    // Auto reject
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Auto-Rejection Warning</h6>
+                            <p class="mb-0 small">This deviation exceeds allowable limits. Consider adjusting your request or providing exceptional justification.</p>
+                        </div>
+                    `;
+                    approvalStatus.style.backgroundColor = '#fef2f2';
+                    approvalStatus.style.border = '1px solid #fecaca';
+                } else {
+                    // Manual review
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #e0f2fe; color: #0369a1;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Manual Review Required</h6>
+                            <p class="mb-0 small">This deviation falls in the grey zone and requires ${approvalPathwayText}.</p>
+                        </div>
+                    `;
+                    approvalStatus.style.backgroundColor = '#f0f9ff';
+                    approvalStatus.style.border = '1px solid #bae6fd';
+                }
+                
+                approvalStatus.innerHTML = statusHTML;
+            }
+            
+            requestedRoi.addEventListener('change', function() {
+                const standardRoi = parseFloat(document.getElementById('standard-roi').value);
+                const newRoi = parseFloat(this.value);
+                const delta = (newRoi - standardRoi).toFixed(2);
+                roiDelta.textContent = delta + '%';
+                roiDeviationDisplay.textContent = delta + '%';
+                
+                if (delta < 0) {
+                    roiDelta.className = 'input-delta delta-negative';
+                } else {
+                    roiDelta.className = 'input-delta';
+                }
+                
+                // Update approval zones
+                const primaryScenario = detectedScenarios.rm[0];
+                updateApprovalZones(primaryScenario);
+            });
+            
+            requestedPf.addEventListener('change', function() {
+                const standardPf = parseFloat(document.getElementById('standard-pf').value.replace(',', ''));
+                const newPf = parseFloat(this.value);
+                const deltaPercent = Math.round((newPf - standardPf) / standardPf * 100);
+                pfDelta.textContent = deltaPercent + '%';
+                pfDeviationDisplay.textContent = deltaPercent + '%';
+                
+                if (deltaPercent < 0) {
+                    pfDelta.className = 'input-delta delta-negative';
+                } else {
+                    pfDelta.className = 'input-delta';
+                }
+                
+                // Update approval zones
+                const primaryScenario = detectedScenarios.rm[0];
+                updateApprovalZones(primaryScenario);
+            });
+            
+            // Populate scenario selector dropdowns (both in sidebar and main content)
+            const scenarioSelectors = [
+                document.getElementById('scenario-selector'),
+                document.getElementById('main-scenario-selector')
+            ];
+            
+            scenarioSelectors.forEach(selector => {
+                // Add options to both selectors
+                rmScenarios.forEach(scenario => {
+                    const option = document.createElement('option');
+                    option.value = scenario.id;
+                    option.textContent = scenario.name;
+                    selector.appendChild(option);
+                });
+                
+                // Add event listener to both selectors
+                selector.addEventListener('change', function() {
+                    // Keep both selectors in sync
+                    const selectedValue = this.value;
+                    scenarioSelectors.forEach(s => {
+                        s.value = selectedValue;
+                    });
+                    
+                    updateScenarioDisplay(selectedValue);
+                });
+            });
+            
+            // Function to update display based on selected scenario
+            function updateScenarioDisplay(selectedScenarioId) {
+                if (selectedScenarioId === '') {
+                    // Show auto-detected scenarios
+                    updateUIWithScenarios(detectedScenarios.rm);
+                } else {
+                    // Show selected scenario
+                    const selectedScenario = rmScenarios.find(scenario => scenario.id === selectedScenarioId);
+                    updateUIWithScenarios([selectedScenario]);
+                }
+            }
+            
+            // Function to update the UI with selected scenarios
+            function updateUIWithScenarios(scenarios) {
+                if (!scenarios || scenarios.length === 0) return;
+                
+                const primaryScenario = scenarios[0];
+                
+                // Populate primary scenario
+                document.getElementById('primary-scenario').innerHTML = `
+                    <div class="scenario-icon" style="background-color: ${primaryScenario.iconBackground}; color: ${primaryScenario.iconColor};">
+                        <i class="fas fa-${primaryScenario.icon}"></i>
+                    </div>
+                    <div class="scenario-details">
+                        <div class="scenario-name">${primaryScenario.name}</div>
+                        <div class="scenario-description">${primaryScenario.description}</div>
+                        <div class="mt-2">
+                            <span class="risk-level ${primaryScenario.riskLevel.toLowerCase().replace(' ', '-')}-risk">
+                                ${primaryScenario.riskLevel.toUpperCase()} RISK
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                // Populate nudge message
+                document.getElementById('nudge-message').innerHTML = `
+                    <p>${primaryScenario.nudgeMessage}</p>
+                `;
+                
+                // Populate approval pathway
+                document.getElementById('approval-pathway').innerHTML = `
+                    <strong>Approval Pathway:</strong>
+                    <p class="mb-0">${primaryScenario.approvalPathway}</p>
+                `;
+                
+                // Populate recommendations
+                const recommendationsList = document.getElementById('recommendations');
+                recommendationsList.innerHTML = '';
+                primaryScenario.recommendations.forEach(rec => {
+                    const li = document.createElement('li');
+                    li.textContent = rec;
+                    recommendationsList.appendChild(li);
+                });
+                
+                // Update impact values
+                document.getElementById('profitability-impact').textContent = primaryScenario.impactAnalysis.profitabilityImpact;
+                document.getElementById('conversion-impact').textContent = primaryScenario.impactAnalysis.conversionLikelihood;
+                document.getElementById('processing-time').textContent = primaryScenario.impactAnalysis.processingTimeImpact;
+                
+                // Set appropriate colors for impact values
+                if (primaryScenario.impactAnalysis.profitabilityImpact.includes("Minimal") || 
+                    primaryScenario.impactAnalysis.profitabilityImpact.includes("Offset")) {
+                    document.getElementById('profitability-impact').className = 'impact-value neutral-impact';
+                } else if (primaryScenario.impactAnalysis.profitabilityImpact.includes("negative")) {
+                    document.getElementById('profitability-impact').className = 'impact-value negative-impact';
+                }
+                
+                // Populate scenario list in sidebar
+                const scenarioList = document.getElementById('scenario-list');
+                scenarioList.innerHTML = '';
+                
+                scenarios.forEach(scenario => {
+                    const scenarioItem = document.createElement('div');
+                    scenarioItem.className = 'scenario-badge';
+                    scenarioItem.style.backgroundColor = scenario.iconBackground;
+                    scenarioItem.style.color = scenario.iconColor;
+                    scenarioItem.innerHTML = `
+                        <i class="fas fa-${scenario.icon} me-1"></i>
+                        ${scenario.name}
+                    `;
+                    scenarioList.appendChild(scenarioItem);
+                });
+                
+            // Secondary scenarios as badges
+            const secondaryScenarios = detectedScenarios.rm.slice(1);
+            const secondaryContainer = document.getElementById('secondary-scenarios');
+            secondaryContainer.innerHTML = '';
+            
+            if (secondaryScenarios.length > 0) {
+                const secondaryHeader = document.createElement('h6');
+                secondaryHeader.textContent = 'Additional Detected Scenarios:';
+                secondaryHeader.className = 'mb-2 mt-3';
+                secondaryContainer.appendChild(secondaryHeader);
+                
+                secondaryScenarios.forEach(scenario => {
+                    const badge = document.createElement('span');
+                    badge.className = 'scenario-badge';
+                    badge.style.backgroundColor = scenario.iconBackground;
+                    badge.style.color = scenario.iconColor;
+                    badge.innerHTML = `
+                        <i class="fas fa-${scenario.icon} me-1"></i>
+                        ${scenario.name}
+                    `;
+                    secondaryContainer.appendChild(badge);
+                });
+            }
+            
+            // Initialize approval zones
+            updateApprovalZones(primaryScenario);
+            
+            // Show/hide initial nudge layer
+            document.getElementById('initial-nudge').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

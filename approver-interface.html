@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approver Interface - AI Pricing Scenarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Additional styles specific to approver interface */
+        .case-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--neutral-200);
+            margin-bottom: 1rem;
+        }
+        
+        .case-card:hover {
+            box-shadow: var(--box-shadow);
+            transform: translateY(-2px);
+            border-color: var(--primary-light);
+        }
+        
+        .case-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .case-name {
+            font-weight: 600;
+            color: var(--neutral-900);
+            font-size: 1rem;
+        }
+        
+        .case-id {
+            font-size: 0.8rem;
+            color: var(--neutral-500);
+        }
+        
+        .rm-name {
+            font-size: 0.85rem;
+            color: var(--neutral-700);
+        }
+        
+        .case-card-body {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .case-details {
+            flex: 1;
+        }
+        
+        .deviation-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .deviation-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .deviation-label {
+            font-size: 0.7rem;
+            color: var(--neutral-600);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+        
+        .deviation-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .case-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            justify-content: center;
+            min-width: 120px;
+        }
+        
+        .case-card-footer {
+            background-color: #f8fafc;
+            padding: 0.75rem 1.25rem;
+            border-top: 1px solid var(--neutral-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .governance-patterns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .pattern-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .pattern-low {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .pattern-medium {
+            background-color: #fef9c3;
+            color: #854d0e;
+        }
+        
+        .pattern-high {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: var(--neutral-500);
+        }
+        
+        /* Approval Zone Styles */
+        .approval-zone-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .approval-zone-bar {
+            height: 40px;
+            width: 100%;
+            background: linear-gradient(to right, #ef4444 0%, #ef4444 30%, #9ca3af 30%, #9ca3af 75%, #10b981 75%, #10b981 100%);
+            border-radius: 5px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .approval-zone-marker {
+            position: absolute;
+            top: -15px;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #1e40af;
+        }
+        
+        .approval-zone-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .approval-zone-label {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .auto-reject {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        
+        .manual-review {
+            background-color: #e5e7eb;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+        }
+        
+        .auto-approve {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .approval-indicator {
+            background-color: white;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            bottom: -10px;
+            transform: translateX(-50%);
+        }
+        
+        .approval-status-card {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-icon {
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--neutral-200);
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--neutral-700);
+            white-space: nowrap;
+        }
+        
+        .overview-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .overview-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--neutral-200);
+            transition: var(--transition);
+            padding: 1.25rem;
+        }
+        
+        .overview-card:hover {
+            box-shadow: var(--box-shadow);
+        }
+        
+        .overview-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .overview-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .blue-icon {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+        }
+        
+        .green-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .yellow-icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .red-icon {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .overview-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+        
+        .overview-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+        
+        .overview-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .change-up {
+            color: var(--danger-color);
+        }
+        
+        .change-down {
+            color: var(--secondary-color);
+        }
+        
+        .pattern-detector {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            border: 1px solid var(--neutral-200);
+            background-color: white;
+        }
+        
+        .pattern-detector-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pattern-detector-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .pattern-detector-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .governance-insight {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            position: relative;
+            border-left: 4px solid var(--primary-light);
+        }
+        
+        .risk-assessment {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .data-charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .data-chart {
+            background-color: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .placeholder-chart {
+            color: var(--neutral-400);
+            text-align: center;
+        }
+        
+        .pattern-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .modal-data-point {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .modal-data-point:last-child {
+            border-bottom: none;
+        }
+        
+        .data-point-label {
+            font-weight: 500;
+            color: var(--neutral-700);
+        }
+        
+        .data-point-value {
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-title">
+                <a href="index.html" class="back-button" title="Back to Home">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1>Approver Interface <span class="badge">Governance</span></h1>
+            </div>
+            <div class="header-actions">
+                <button type="button" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-question-circle"></i>
+                    Help
+                </button>
+            </div>
+        </header>
+        
+        <div class="app-body">
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Governance Dashboard</h3>
+                    <div class="sidebar-menu">
+                        <div class="menu-item active">
+                            <i class="fas fa-th-large"></i>
+                            Overview
+                        </div>
+                        <div class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            Portfolio Trends
+                        </div>
+                        <div class="menu-item">
+                            <i class="fas fa-user-tie"></i>
+                            RM Performance
+                        </div>
+                        <div class="menu-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Geographic Analysis
+                        </div>
+                        <div class="menu-item">
+                            <i class="fas fa-cog"></i>
+                            Policy Settings
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>Scenario Selection</h3>
+                    <div class="form-group mb-3">
+                        <label for="pattern-selector" class="form-label fw-bold">Select Scenario:</label>
+                        <select class="form-select form-select-lg" id="pattern-selector" style="font-size: 1rem; background-color: #f0f9ff; border: 2px solid #3b82f6;">
+                            <option value="">Auto-detect (Default)</option>
+                            <!-- Scenario options organized in groups -->
+                            <optgroup label="Governance Patterns">
+                                <option value="yield-compression">Yield Compression Trend</option>
+                                <option value="high-deviation-rate">High Deviation Rate Period</option>
+                                <option value="revenue-leakage">Revenue Leakage Spike</option>
+                                <option value="rm-strong">RM Strong Portfolio Quality</option>
+                                <option value="rm-weak">RM Weak Portfolio Quality</option>
+                                <option value="rm-high-dev">RM High Deviation Frequency</option>
+                                <option value="segment-stress">Segment Stress Period</option>
+                                <option value="contest-period">Contest/Incentive Push Period</option>
+                            </optgroup>
+                            <optgroup label="Case Types">
+                                <option value="high-magnitude">High Magnitude Deviation</option>
+                                <option value="strategic">Strategic Relationship Case</option>
+                                <option value="prime">Prime Customer - Conversion Critical</option>
+                                <option value="high-ticket">High Ticket Exposure Case</option>
+                            </optgroup>
+                        </select>
+                        <div class="small text-muted mt-1">Choose any scenario to see specific insights and recommendations</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section mt-4">
+                    <h3>Active Patterns</h3>
+                    <div id="active-patterns">
+                        <!-- Active patterns will be populated here -->
+                    </div>
+                </div>
+            </aside>
+            
+            <main class="main-content">
+                <!-- Scenario Selection Bar -->
+                <div class="pattern-selection-bar mb-4 p-3" style="background-color: #f0f9ff; border-radius: 8px; border: 1px solid #bae6fd;">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <label for="main-pattern-selector" class="form-label mb-0 fw-bold">Select Scenario:</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select class="form-select form-select-lg" id="main-pattern-selector" style="border: 2px solid #3b82f6;">
+                                <option value="">Auto-detect (Default)</option>
+                                <!-- Scenario options organized in groups -->
+                                <optgroup label="Governance Patterns">
+                                    <option value="yield-compression">Yield Compression Trend</option>
+                                    <option value="high-deviation-rate">High Deviation Rate Period</option>
+                                    <option value="revenue-leakage">Revenue Leakage Spike</option>
+                                    <option value="rm-strong">RM Strong Portfolio Quality</option>
+                                    <option value="rm-weak">RM Weak Portfolio Quality</option>
+                                    <option value="rm-high-dev">RM High Deviation Frequency</option>
+                                    <option value="segment-stress">Segment Stress Period</option>
+                                    <option value="contest-period">Contest/Incentive Push Period</option>
+                                </optgroup>
+                                <optgroup label="Case Types">
+                                    <option value="high-magnitude">High Magnitude Deviation</option>
+                                    <option value="strategic">Strategic Relationship Case</option>
+                                    <option value="prime">Prime Customer - Conversion Critical</option>
+                                    <option value="high-ticket">High Ticket Exposure Case</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Overview -->
+                <div class="overview-cards">
+                    <div class="overview-card">
+                        <div class="overview-card-header">
+                            <div class="overview-icon red-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="overview-title">Deviation Rate (Monthly)</div>
+                        </div>
+                        <div class="overview-value">35%</div>
+                        <div class="overview-change change-up">
+                            <i class="fas fa-arrow-up"></i>
+                            5% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <div class="overview-card-header">
+                            <div class="overview-icon blue-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="overview-title">Avg. Sanctioned ROI</div>
+                        </div>
+                        <div class="overview-value">11.85%</div>
+                        <div class="overview-change change-down">
+                            <i class="fas fa-arrow-down"></i>
+                            0.2% from last quarter
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <div class="overview-card-header">
+                            <div class="overview-icon yellow-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div class="overview-title">Revenue Impact (MTD)</div>
+                        </div>
+                        <div class="overview-value">₹15M</div>
+                        <div class="overview-change change-up">
+                            <i class="fas fa-arrow-up"></i>
+                            25% from last quarter
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <div class="overview-card-header">
+                            <div class="overview-icon green-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="overview-title">Auto-Approval Rate</div>
+                        </div>
+                        <div class="overview-value">68%</div>
+                        <div class="overview-change change-down">
+                            <i class="fas fa-arrow-down"></i>
+                            7% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Pattern Detection -->
+                <div class="pattern-detector">
+                    <div class="pattern-detector-header">
+                        <div class="pattern-detector-icon" style="background: linear-gradient(135deg, #3b82f6, #1e40af); color: white;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="pattern-detector-title">AI-Detected Governance Patterns</div>
+                    </div>
+                    
+                    <p>Our AI has analyzed recent deviation activity and detected the following governance patterns:</p>
+                    
+                    <!-- Primary Pattern -->
+                    <div id="primary-pattern" class="governance-insight">
+                        <!-- Will be populated by JS -->
+                    </div>
+                    
+                    <div id="risk-assessment" class="risk-assessment">
+                        <!-- Will be populated by JS -->
+                    </div>
+                    
+                    <!-- Recommended Actions -->
+                    <!-- Approval Zone Visualization -->
+                    <div class="approval-zone-container mt-4">
+                        <h5 class="mb-3">Pattern Threshold Analysis</h5>
+                        <div class="approval-zone-bar" id="deviation-trend-zone">
+                            <div class="approval-indicator" id="deviation-trend-indicator" style="left: 60%;"></div>
+                        </div>
+                        <div class="approval-zone-labels">
+                            <div class="approval-zone-label auto-reject">Critical</div>
+                            <div class="approval-zone-label manual-review">Concerning</div>
+                            <div class="approval-zone-label auto-approve">Acceptable</div>
+                        </div>
+                        <div class="small text-muted text-center">Deviation Rate Trend: <span id="deviation-trend-display">+40% vs historical</span></div>
+                        
+                        <div class="mt-4 mb-2">
+                            <div class="approval-zone-bar" id="yield-compression-zone">
+                                <div class="approval-indicator" id="yield-compression-indicator" style="left: 40%;"></div>
+                            </div>
+                            <div class="approval-zone-labels">
+                                <div class="approval-zone-label auto-reject">Critical</div>
+                                <div class="approval-zone-label manual-review">Concerning</div>
+                                <div class="approval-zone-label auto-approve">Acceptable</div>
+                            </div>
+                            <div class="small text-muted text-center">Yield Compression: <span id="yield-compression-display">-30 bps QoQ</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Portfolio Status -->
+                    <div id="portfolio-status" class="approval-status-card" style="background-color: #fef9c7; border: 1px solid #fde68a;">
+                        <div class="status-icon" style="background-color: #fef3c7; color: #d97706;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Policy Review Recommended</h6>
+                            <p class="mb-0 small">Current deviation patterns indicate policy thresholds may need adjustment for certain segments.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5>Recommended Actions</h5>
+                        <ul id="recommended-actions" class="recommendation-list">
+                            <!-- Will be populated by JS -->
+                        </ul>
+                    </div>
+                    
+                    <!-- Data Charts -->
+                    <div class="data-charts">
+                        <div class="data-chart">
+                            <div class="placeholder-chart">
+                                <i class="fas fa-chart-line fa-3x mb-2"></i>
+                                <div>Deviation Trend Analysis</div>
+                            </div>
+                        </div>
+                        <div class="data-chart">
+                            <div class="placeholder-chart">
+                                <i class="fas fa-chart-pie fa-3x mb-2"></i>
+                                <div>Deviation Distribution by Segment</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pattern Actions -->
+                    <div class="pattern-actions">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                            <i class="fas fa-search"></i>
+                            View Detailed Analysis
+                        </button>
+                        <button class="btn btn-outline-secondary">
+                            <i class="fas fa-file-export"></i>
+                            Export Report
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <div class="filter-label">Status:</div>
+                        <select class="form-select form-select-sm">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-label">RM:</div>
+                        <select class="form-select form-select-sm">
+                            <option value="all">All</option>
+                            <option value="sharma">Rajiv Sharma</option>
+                            <option value="patel">Anita Patel</option>
+                            <option value="singh">Manpreet Singh</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-label">Time Period:</div>
+                        <select class="form-select form-select-sm">
+                            <option value="today">Today</option>
+                            <option value="week" selected>This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group ms-auto">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-filter"></i>
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Pending Cases Section -->
+                <h3 class="section-title mb-3">Pending Approval Requests</h3>
+                
+                <div id="pending-cases">
+            <!-- Initial Nudge Layer - Portfolio Impact -->
+            <div class="alert alert-info mb-4" id="portfolio-nudge" style="border-left: 4px solid #0ea5e9; background-color: #f0f9ff;">
+                <h4 class="alert-heading"><i class="fas fa-chart-pie me-2"></i>Deviation Portfolio Analysis</h4>
+                <hr>
+                <p class="mb-2"><strong>Current deviation trends requiring attention:</strong></p>
+                <div class="row mt-2">
+                    <div class="col-md-4 mb-2">
+                        <div class="p-2 rounded" style="background-color: #fee2e2; border: 1px solid #fecaca;">
+                            <i class="fas fa-chart-line me-1"></i> <strong>Yield Compression:</strong> -30 bps QoQ (12.05% → 11.85%)
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div class="p-2 rounded" style="background-color: #fef3c7; border: 1px solid #fcd34d;">
+                            <i class="fas fa-percent me-1"></i> <strong>High Deviation Rate:</strong> 35% vs 25% historical
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div class="p-2 rounded" style="background-color: #e0f2fe; border: 1px solid #bae6fd;">
+                            <i class="fas fa-money-bill-wave me-1"></i> <strong>Revenue Leakage:</strong> ₹15M MTD (+25% YoY)
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-2"><strong>Portfolio Level Recommendations:</strong></p>
+                <ul class="mb-0">
+                    <li>Review auto-approval bands for high-performing RMs</li>
+                    <li>Consider policy updates for premium customer segment</li>
+                    <li>Implement zone-based deviation thresholds for competitive areas</li>
+                </ul>
+            </div>
+            
+            <!-- Case cards will be populated here -->
+            <div class="case-card">
+                        <div class="case-card-header">
+                            <div>
+                                <div class="case-name">Rajendra Kumar</div>
+                                <div class="case-id">CUST10045678 | Home Renovation Loan</div>
+                            </div>
+                            <div class="rm-name">RM: Rajiv Sharma</div>
+                        </div>
+                        <div class="case-card-body">
+                            <div class="case-details">
+                                <div class="deviation-row">
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Loan Amount</div>
+                                        <div class="deviation-value">₹25,00,000</div>
+                                    </div>
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Requested ROI</div>
+                                        <div class="deviation-value">11.25% <span class="text-danger">(-0.75%)</span></div>
+                                    </div>
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Processing Fee</div>
+                                        <div class="deviation-value">₹10,000 <span class="text-danger">(-60%)</span></div>
+                                    </div>
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Revenue Impact</div>
+                                        <div class="deviation-value text-danger">-₹1,20,000</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="case-actions">
+                                <button class="btn btn-sm btn-success">Approve</button>
+                                <button class="btn btn-sm btn-danger">Reject</button>
+                            </div>
+                        </div>
+                        <div class="case-card-footer">
+                            <div class="governance-patterns">
+                                <span class="pattern-badge pattern-high">High Magnitude</span>
+                                <span class="pattern-badge pattern-medium">High Ticket</span>
+                                <span class="pattern-badge pattern-low">Strategic</span>
+                            </div>
+                            <div class="timestamp">Submitted: 2h ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="case-card">
+                        <div class="case-card-header">
+                            <div>
+                                <div class="case-name">Amit Verma</div>
+                                <div class="case-id">CUST10048792 | Business Expansion Loan</div>
+                            </div>
+                            <div class="rm-name">RM: Anita Patel</div>
+                        </div>
+                        <div class="case-card-body">
+                            <div class="case-details">
+                                <div class="deviation-row">
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Loan Amount</div>
+                                        <div class="deviation-value">₹15,00,000</div>
+                                    </div>
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Requested ROI</div>
+                                        <div class="deviation-value">11.50% <span class="text-danger">(-0.50%)</span></div>
+                                    </div>
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Processing Fee</div>
+                                        <div class="deviation-value">₹15,000 <span class="text-danger">(-25%)</span></div>
+                                    </div>
+                                    <div class="deviation-item">
+                                        <div class="deviation-label">Revenue Impact</div>
+                                        <div class="deviation-value text-danger">-₹65,000</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="case-actions">
+                                <button class="btn btn-sm btn-success">Approve</button>
+                                <button class="btn btn-sm btn-danger">Reject</button>
+                            </div>
+                        </div>
+                        <div class="case-card-footer">
+                            <div class="governance-patterns">
+                                <span class="pattern-badge pattern-medium">Competitive</span>
+                                <span class="pattern-badge pattern-low">Prime Customer</span>
+                            </div>
+                            <div class="timestamp">Submitted: 4h ago</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Pattern Analysis: Yield Compression Trend</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Risk Assessment:</strong> Portfolio yield compression may adversely impact P&L targets.
+                    </div>
+                    
+                    <h6 class="mt-4 mb-3">Detailed Metrics</h6>
+                    <div class="modal-data-point">
+                        <div class="data-point-label">Yield Compression Rate</div>
+                        <div class="data-point-value">-30 bps quarter-over-quarter</div>
+                    </div>
+                    <div class="modal-data-point">
+                        <div class="data-point-label">Risk-Adjusted Impact</div>
+                        <div class="data-point-value">Negative trend in risk-adjusted returns</div>
+                    </div>
+                    <div class="modal-data-point">
+                        <div class="data-point-label">Competitive Position</div>
+                        <div class="data-point-value">Below market median rates in 60% of approvals</div>
+                    </div>
+                    <div class="modal-data-point">
+                        <div class="data-point-label">Annualized P&L Impact</div>
+                        <div class="data-point-value text-danger">-₹4.2 Cr estimated</div>
+                    </div>
+                    
+                    <h6 class="mt-4 mb-3">Segment Analysis</h6>
+                    <p>Yield compression is most pronounced in the following segments:</p>
+                    <ul>
+                        <li>Premium Home Loans (-45 bps)</li>
+                        <li>Business Expansion Loans (-38 bps)</li>
+                        <li>Metro Areas, particularly Mumbai and Bangalore (-52 bps)</li>
+                    </ul>
+                    
+                    <h6 class="mt-4 mb-3">Historical Comparison</h6>
+                    <p>Current yield compression rate is 2.5x the historical average, indicating potential structural misalignment rather than cyclical variation.</p>
+                    
+                    <div class="data-chart mt-4">
+                        <div class="placeholder-chart">
+                            <i class="fas fa-chart-line fa-3x mb-2"></i>
+                            <div>Yield Compression Trend (Last 6 Quarters)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Generate Full Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scenarios.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // For demo purposes, let's add some mock data for governance patterns
+            const mockGovData = {
+                salesToDisbursalRatio: 0.65,
+                salesToDisbursalTarget: 0.75,
+                deviationRateWeekly: 42,
+                deviationRateMonthly: 35,
+                deviationRateQuarterly: 30,
+                averageSanctionedROI: 11.85,
+                averageSanctionedROILastQuarter: 12.05,
+                totalDeviationImpact: 15000000,
+                totalDeviationImpactLastQuarter: 12000000,
+                isContestPeriod: true
+            };
+            
+            // Implement similar detection logic as we have for RM scenarios
+            // In a real system, this would analyze a range of portfolio metrics
+            const governanceInsight = `Portfolio yield is compressing through deviation activity. Assess impact on overall profitability targets and whether risk-adjusted returns remain acceptable.`;
+            
+            const riskAssessment = `Yield compression may adversely impact portfolio profitability, especially if risk factors remain constant or increase.`;
+            
+            const recommendedActions = [
+                'Quantify yield compression impact on portfolio P&L',
+                'Analyze whether lower yields are offset by higher quality customers',
+                'Review deviation approval thresholds against profitability targets'
+            ];
+            
+            // Populate the primary pattern
+            document.getElementById('primary-pattern').innerHTML = `
+                <h5>Yield Compression Trend</h5>
+                <p>${governanceInsight}</p>
+            `;
+            
+            // Populate risk assessment
+            document.getElementById('risk-assessment').innerHTML = `
+                <h5>Risk Assessment</h5>
+                <p>${riskAssessment}</p>
+            `;
+            
+            // Populate recommendations
+            const recommendationsList = document.getElementById('recommended-actions');
+            recommendedActions.forEach(action => {
+                const li = document.createElement('li');
+                li.textContent = action;
+                recommendationsList.appendChild(li);
+            });
+            
+            // Populate pattern selector dropdowns (both in sidebar and main content)
+            const patternSelectors = [
+                document.getElementById('pattern-selector'),
+                document.getElementById('main-pattern-selector')
+            ];
+            
+            patternSelectors.forEach(selector => {
+                // Add options to both selectors
+                approverScenarios.forEach(pattern => {
+                    const option = document.createElement('option');
+                    option.value = pattern.id;
+                    option.textContent = pattern.name;
+                    selector.appendChild(option);
+                });
+                
+                // Add event listener to both selectors
+                selector.addEventListener('change', function() {
+                    // Keep both selectors in sync
+                    const selectedValue = this.value;
+                    patternSelectors.forEach(s => {
+                        s.value = selectedValue;
+                    });
+                    
+                    updatePatternDisplay(selectedValue);
+                });
+            });
+            
+            // Function to update display based on selected pattern
+            function updatePatternDisplay(selectedPatternId) {
+                if (selectedPatternId === '') {
+                    // Show default governance patterns
+                    displayDefaultPatterns();
+                } else {
+                    // Show selected pattern
+                    const selectedPattern = approverScenarios.find(pattern => pattern.id === selectedPatternId);
+                    updatePatternUI(selectedPattern);
+                }
+            }
+            
+            // Function to update the UI with the selected pattern
+            function updatePatternUI(pattern) {
+                // Populate the primary pattern with scenario-specific insights
+                document.getElementById('primary-pattern').innerHTML = `
+                    <h5>${pattern.name}</h5>
+                    <p>${pattern.governanceInsight}</p>
+                `;
+                
+                // Populate risk assessment with scenario-specific assessment
+                document.getElementById('risk-assessment').innerHTML = `
+                    <h5>Risk Assessment</h5>
+                    <p>${pattern.riskAssessment}</p>
+                `;
+                
+                // Populate recommendations with scenario-specific actions
+                const recommendationsList = document.getElementById('recommended-actions');
+                recommendationsList.innerHTML = '';
+                pattern.recommendedActions.forEach(action => {
+                    const li = document.createElement('li');
+                    li.textContent = action;
+                    recommendationsList.appendChild(li);
+                });
+                
+                // Update the modal title
+                document.getElementById('detailsModalLabel').textContent = `Pattern Analysis: ${pattern.name}`;
+                
+                // Update pattern thresholds based on selected scenario
+                updateScenarioThresholds(pattern);
+            }
+            
+            // Update pattern thresholds based on scenario
+            function updateScenarioThresholds(pattern) {
+                // Default values
+                let deviationTrendValue = 40; // +40% vs historical
+                let yieldCompressionValue = -30; // -30 bps QoQ
+                
+                // Adjust based on scenario
+                if (pattern) {
+                    if (pattern.id === 'yield-compression') {
+                        yieldCompressionValue = -45; // More severe compression
+                        document.getElementById('yield-compression-display').textContent = '-45 bps QoQ';
+                    } else if (pattern.id === 'high-deviation-rate') {
+                        deviationTrendValue = 60; // More severe deviation rate
+                        document.getElementById('deviation-trend-display').textContent = '+60% vs historical';
+                    } else if (pattern.id === 'rm-strong') {
+                        deviationTrendValue = 20; // Better than average
+                        yieldCompressionValue = -15; // Better than average
+                        document.getElementById('deviation-trend-display').textContent = '+20% vs historical';
+                        document.getElementById('yield-compression-display').textContent = '-15 bps QoQ';
+                    } else if (pattern.id === 'contest-period') {
+                        deviationTrendValue = 75; // Severe increase during contest
+                        document.getElementById('deviation-trend-display').textContent = '+75% vs historical';
+                    }
+                }
+                
+                // Calculate positions for indicators
+                // Deviation trend: 0% is +100% increase, 100% is 0% increase
+                let deviationTrendPosition = 100 - deviationTrendValue;
+                deviationTrendPosition = Math.min(Math.max(deviationTrendPosition, 0), 100);
+                
+                // Yield compression: 0% is -50 bps, 100% is 0 bps
+                let yieldPosition = (50 + yieldCompressionValue) * 2;
+                yieldPosition = Math.min(Math.max(yieldPosition, 0), 100);
+                
+                // Update indicator positions
+                document.getElementById('deviation-trend-indicator').style.left = deviationTrendPosition + '%';
+                document.getElementById('yield-compression-indicator').style.left = yieldPosition + '%';
+                
+                // Update portfolio status based on scenario
+                updatePortfolioStatus(deviationTrendPosition, yieldPosition, pattern);
+            }
+            
+            // Update portfolio status based on indicators and scenario
+            function updatePortfolioStatus(deviationTrendPosition, yieldPosition, pattern) {
+                const portfolioStatus = document.getElementById('portfolio-status');
+                let statusHTML = '';
+                
+                // Customize status message based on specific scenario
+                if (pattern) {
+                    if (pattern.id === 'yield-compression') {
+                        statusHTML = `
+                            <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Yield Protection Actions Required</h6>
+                                <p class="mb-0 small">Significant yield compression detected that exceeds quarterly targets. Review pricing strategy for all segments.</p>
+                            </div>
+                        `;
+                        portfolioStatus.style.backgroundColor = '#fef2f2';
+                        portfolioStatus.style.border = '1px solid #fecaca';
+                    } else if (pattern.id === 'high-deviation-rate') {
+                        statusHTML = `
+                            <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Deviation Frequency Alert</h6>
+                                <p class="mb-0 small">Deviation rate has increased 60% above historical baseline. Review approval processes and RM deviation patterns.</p>
+                            </div>
+                        `;
+                        portfolioStatus.style.backgroundColor = '#fef2f2';
+                        portfolioStatus.style.border = '1px solid #fecaca';
+                    } else if (pattern.id === 'rm-strong') {
+                        statusHTML = `
+                            <div class="status-icon" style="background-color: #d1fae5; color: #065f46;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Strong Portfolio Performance</h6>
+                                <p class="mb-0 small">This RM maintains excellent portfolio quality with controlled deviation metrics. Consider expanded approval thresholds.</p>
+                            </div>
+                        `;
+                        portfolioStatus.style.backgroundColor = '#f0fdf4';
+                        portfolioStatus.style.border = '1px solid #a7f3d0';
+                    } else if (pattern.id === 'contest-period') {
+                        statusHTML = `
+                            <div class="status-icon" style="background-color: #fef3c7; color: #d97706;">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Contest Period Monitoring</h6>
+                                <p class="mb-0 small">75% increase in deviation rate during current incentive program. Implement additional approval scrutiny during contest period.</p>
+                            </div>
+                        `;
+                        portfolioStatus.style.backgroundColor = '#fef9c7';
+                        portfolioStatus.style.border = '1px solid #fde68a';
+                    } else {
+                        // Default status based on indicator positions
+                        if (deviationTrendPosition > 70 && yieldPosition > 70) {
+                            statusHTML = `
+                                <div class="status-icon" style="background-color: #d1fae5; color: #065f46;">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Portfolio Performance On Track</h6>
+                                    <p class="mb-0 small">Current deviation patterns are within acceptable ranges for this scenario.</p>
+                                </div>
+                            `;
+                            portfolioStatus.style.backgroundColor = '#f0fdf4';
+                            portfolioStatus.style.border = '1px solid #a7f3d0';
+                        } else if (deviationTrendPosition < 30 || yieldPosition < 30) {
+                            statusHTML = `
+                                <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Scenario-Specific Intervention Required</h6>
+                                    <p class="mb-0 small">Current metrics for this scenario exceed acceptable thresholds and require immediate attention.</p>
+                                </div>
+                            `;
+                            portfolioStatus.style.backgroundColor = '#fef2f2';
+                            portfolioStatus.style.border = '1px solid #fecaca';
+                        } else {
+                            statusHTML = `
+                                <div class="status-icon" style="background-color: #fef3c7; color: #d97706;">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Policy Review Recommended for ${pattern.name}</h6>
+                                    <p class="mb-0 small">Current patterns for this scenario indicate policy thresholds may need adjustment.</p>
+                                </div>
+                            `;
+                            portfolioStatus.style.backgroundColor = '#fef9c7';
+                            portfolioStatus.style.border = '1px solid #fde68a';
+                        }
+                    }
+                } else {
+                    // Default status when no scenario selected
+                    statusHTML = `
+                        <div class="status-icon" style="background-color: #fef3c7; color: #d97706;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Policy Review Recommended</h6>
+                            <p class="mb-0 small">Select a specific scenario for more detailed recommendations.</p>
+                        </div>
+                    `;
+                    portfolioStatus.style.backgroundColor = '#fef9c7';
+                    portfolioStatus.style.border = '1px solid #fde68a';
+                }
+                
+                portfolioStatus.innerHTML = statusHTML;
+            }
+            
+            // Function to display default governance patterns
+            function displayDefaultPatterns() {
+                // Default governance insight for yield compression
+                document.getElementById('primary-pattern').innerHTML = `
+                    <h5>Yield Compression Trend</h5>
+                    <p>${governanceInsight}</p>
+                `;
+                
+                // Default risk assessment
+                document.getElementById('risk-assessment').innerHTML = `
+                    <h5>Risk Assessment</h5>
+                    <p>${riskAssessment}</p>
+                `;
+                
+                // Default recommended actions
+                const recommendationsList = document.getElementById('recommended-actions');
+                recommendationsList.innerHTML = '';
+                recommendedActions.forEach(action => {
+                    const li = document.createElement('li');
+                    li.textContent = action;
+                    recommendationsList.appendChild(li);
+                });
+            }
+            
+            // Populate active patterns in sidebar
+            const activePatterns = document.getElementById('active-patterns');
+            activePatterns.innerHTML = `
+                <div class="active-pattern">
+                    <div class="pattern-badge pattern-high">Yield Compression</div>
+                    <div class="pattern-metric">-30 bps QoQ</div>
+                </div>
+                <div class="active-pattern">
+                    <div class="pattern-badge pattern-medium">High Deviation Rate</div>
+                    <div class="pattern-metric">35% (Monthly)</div>
+                </div>
+                <div class="active-pattern">
+                    <div class="pattern-badge pattern-medium">Revenue Leakage</div>
+                    <div class="pattern-metric">₹15M MTD</div>
+                </div>
+                <div class="active-pattern">
+                    <div class="pattern-badge pattern-low">RM Strong Portfolio</div>
+                    <div class="pattern-metric">Rajiv S.</div>
+                </div>
+            `;
+            
+            // Update the pattern status visualization
+            function updatePatternZones() {
+                // Get current trend values
+                const deviationTrendValue = 40; // +40% vs historical
+                const yieldCompressionValue = -30; // -30 bps QoQ
+                
+                // Calculate positions for indicators (percentage across the bar)
+                // 0-30% is critical, 30-75% is concerning, 75-100% is acceptable
+                
+                // Deviation trend: 0% is +100% increase, 100% is 0% increase
+                let deviationTrendPosition = 100 - deviationTrendValue;
+                deviationTrendPosition = Math.min(Math.max(deviationTrendPosition, 0), 100);
+                
+                // Yield compression: 0% is -50 bps, 100% is 0 bps
+                let yieldPosition = (50 + yieldCompressionValue) * 2;
+                yieldPosition = Math.min(Math.max(yieldPosition, 0), 100);
+                
+                // Update indicator positions
+                document.getElementById('deviation-trend-indicator').style.left = deviationTrendPosition + '%';
+                document.getElementById('yield-compression-indicator').style.left = yieldPosition + '%';
+                
+                // Determine overall portfolio status based on indicators
+                const portfolioStatus = document.getElementById('portfolio-status');
+                
+                if (deviationTrendPosition > 70 && yieldPosition > 70) {
+                    // Acceptable
+                    portfolioStatus.innerHTML = `
+                        <div class="status-icon" style="background-color: #d1fae5; color: #065f46;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Portfolio Performance On Track</h6>
+                            <p class="mb-0 small">Current deviation patterns are within acceptable ranges.</p>
+                        </div>
+                    `;
+                    portfolioStatus.style.backgroundColor = '#f0fdf4';
+                    portfolioStatus.style.border = '1px solid #a7f3d0';
+                } else if (deviationTrendPosition < 30 || yieldPosition < 30) {
+                    // Critical
+                    portfolioStatus.innerHTML = `
+                        <div class="status-icon" style="background-color: #fee2e2; color: #b91c1c;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Critical Intervention Required</h6>
+                            <p class="mb-0 small">Significant negative deviation patterns detected that require immediate attention.</p>
+                        </div>
+                    `;
+                    portfolioStatus.style.backgroundColor = '#fef2f2';
+                    portfolioStatus.style.border = '1px solid #fecaca';
+                } else {
+                    // Concerning
+                    portfolioStatus.innerHTML = `
+                        <div class="status-icon" style="background-color: #fef3c7; color: #d97706;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Policy Review Recommended</h6>
+                            <p class="mb-0 small">Current deviation patterns indicate policy thresholds may need adjustment for certain segments.</p>
+                        </div>
+                    `;
+                    portfolioStatus.style.backgroundColor = '#fef9c7';
+                    portfolioStatus.style.border = '1px solid #fde68a';
+                }
+            }
+            
+            // Initialize pattern zones
+            updatePatternZones();
+            
+            // Show portfolio nudge layer by default
+            document.getElementById('portfolio-nudge').style.display = 'block';
+            
+            // Display default patterns on initial load
+            displayDefaultPatterns();
+        });
+    </script>
+</body>
+</html>
