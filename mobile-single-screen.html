@@ -473,6 +473,8 @@
             <select class="form-select" id="scenario-selector">
                 <option value="">-- Select Scenario --</option>
                 <!-- Key scenarios only -->
+                <option value="high-take-up-rate" data-category="customer">High Take Up Rate - Priority Case</option>
+                <option value="low-take-up-rate" data-category="risk">Low Take Up Rate - Deprioritize</option>
                 <option value="prime" data-category="customer">Prime Customer - Conversion Critical</option>
                 <option value="strategic" data-category="customer">Strategic Relationship Case</option>
                 <option value="micro" data-category="customer">Micro-Deviation (Low Impact)</option>
@@ -725,6 +727,58 @@
         document.addEventListener('DOMContentLoaded', function() {
             // All scenarios data
             const scenarios = {
+                "high-take-up-rate": {
+                    name: "High Take Up Rate - Priority Case",
+                    description: "Customer highly likely to accept the loan offer based on behavioral indicators.",
+                    iconBackground: "#d1fae5",
+                    iconColor: "#10b981",
+                    icon: "check-circle",
+                    nudgeMessage: "This customer is highly likely to take up the loan offer. Prioritize this case for faster processing as conversion probability is high.",
+                    approvalPathway: "Cases with high take-up probability receive expedited processing.",
+                    recommendations: [
+                        "Focus on quick processing to secure the business",
+                        "Consider pre-approval for accelerated disbursement",
+                        "Prepare documentation in advance to streamline closing"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Positive (ensures revenue capture)",
+                        conversionLikelihood: "+85%",
+                        processingTimeImpact: "Priority processing recommended"
+                    },
+                    riskLevel: "Low Risk",
+                    commercialTerms: {
+                        standardRoi: 11.75,
+                        requestedRoi: 11.50,
+                        standardPf: 20000,
+                        requestedPf: 15000
+                    }
+                },
+                "low-take-up-rate": {
+                    name: "Low Take Up Rate - Deprioritize",
+                    description: "Customer unlikely to proceed with the loan based on behavioral indicators.",
+                    iconBackground: "#f3f4f6",
+                    iconColor: "#9ca3af",
+                    icon: "exclamation-triangle",
+                    nudgeMessage: "This customer has a low probability of proceeding with the loan. Consider deprioritizing effort as conversion is unlikely.",
+                    approvalPathway: "Standard processing without expedited handling.",
+                    recommendations: [
+                        "Minimize effort spent on extensive documentation",
+                        "Consider automated follow-up rather than manual outreach",
+                        "Focus resources on higher-probability cases"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Minimal (opportunity cost savings)",
+                        conversionLikelihood: "<15%",
+                        processingTimeImpact: "Standard (non-priority)"
+                    },
+                    riskLevel: "Medium Risk",
+                    commercialTerms: {
+                        standardRoi: 12.25,
+                        requestedRoi: 11.75,
+                        standardPf: 22000,
+                        requestedPf: 16000
+                    }
+                },
                 "micro": {
                     name: "Micro-Deviation (Low Impact)",
                     description: "Very small ROI/PF tweaks with negligible impact on profitability.",

@@ -6,6 +6,56 @@
 // RM Scenarios
 const rmScenarios = [
     {
+        id: 'high-take-up-rate',
+        name: 'High Take Up Rate - Priority Case',
+        description: 'Customer highly likely to accept the loan offer based on behavioral indicators',
+        icon: 'check-circle',
+        iconColor: '#10b981',
+        iconBackground: '#d1fae5',
+        detection: function(data) {
+            // Logic to detect high take up rate scenarios
+            return (data.bureauScore > 720 && data.incomeStability === 'High' && data.competitiveOffers < 2);
+        },
+        nudgeMessage: 'This customer is highly likely to take up the loan offer. Prioritize this case for faster processing as conversion probability is high.',
+        approvalPathway: 'Cases with high take-up probability receive expedited processing.',
+        riskLevel: 'low',
+        recommendations: [
+            'Focus on quick processing to secure the business',
+            'Consider pre-approval for accelerated disbursement',
+            'Prepare documentation in advance to streamline closing'
+        ],
+        impactAnalysis: {
+            profitabilityImpact: 'Positive (ensures revenue capture)',
+            conversionLikelihood: '+85%',
+            processingTimeImpact: 'Priority processing recommended'
+        }
+    },
+    {
+        id: 'low-take-up-rate',
+        name: 'Low Take Up Rate - Deprioritize',
+        description: 'Customer unlikely to proceed with the loan based on behavioral indicators',
+        icon: 'exclamation-triangle',
+        iconColor: '#9ca3af',
+        iconBackground: '#f3f4f6',
+        detection: function(data) {
+            // Logic to detect low take up rate scenarios
+            return (data.bureauScore < 680 && data.competitiveOffers > 3 && data.roiDeviationPercent > 1.0);
+        },
+        nudgeMessage: 'This customer has a low probability of proceeding with the loan. Consider deprioritizing effort as conversion is unlikely.',
+        approvalPathway: 'Standard processing without expedited handling.',
+        riskLevel: 'medium',
+        recommendations: [
+            'Minimize effort spent on extensive documentation',
+            'Consider automated follow-up rather than manual outreach',
+            'Focus resources on higher-probability cases'
+        ],
+        impactAnalysis: {
+            profitabilityImpact: 'Minimal (opportunity cost savings)',
+            conversionLikelihood: '<15%',
+            processingTimeImpact: 'Standard (non-priority)'
+        }
+    },
+    {
         id: 'micro-deviation',
         name: 'Micro-Deviation (Low Impact)',
         description: 'Very small ROI/PF tweak with negligible profitability delta',
@@ -115,7 +165,7 @@ const sampleData = {
     bureauScore: 745,
     bureauHistory: 60, // months
     foir: 0.55,
-    incomeStability: 'Medium', // Low, Medium, High
+    incomeStability: 'High', // Low, Medium, High
     
     // Deviation details
     requestedROI: 11.25, // %
@@ -135,7 +185,7 @@ const sampleData = {
     
     // Competitive landscape
     competitiveOffer: true,
-    competitiveOffers: 2,
+    competitiveOffers: 1,
     competitivePressureZone: true
 };
 
