@@ -1,0 +1,642 @@
+<!DOCtheTYPE html>
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Requester Interface - Mobile (Updated 2026-02-17)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --primary-lighter: #60a5fa;
+            --primary-lightest: #dbeafe;
+            --secondary: #0891b2;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            width: 390px; /* iPhone 12/13 width */
+            max-width: 100%;
+            background-color: #f9fafb;
+            height: 100%;
+            min-height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            padding-bottom: 15px; /* Reduced bottom padding */
+        }
+        
+        .app-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .section-header {
+            background-color: var(--primary-lightest);
+            color: var(--primary);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.5rem;
+            margin-left: 0.75rem;
+            margin-right: 0.75rem;
+        }
+        
+        .section-header i {
+            margin-right: 0.5rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin: 0.75rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 0.75rem;
+            background-color: white;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .card-header i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .card-body {
+            padding: 0.75rem;
+        }
+        
+        .pill-select {
+            display: flex;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            margin: 0 -0.75rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .pill-select::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .pill-option {
+            flex: 0 0 auto;
+            padding: 0.5rem 1rem;
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+            border-radius: 2rem;
+            margin-left: 0.75rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pill-option:last-child {
+            margin-right: 0.75rem;
+        }
+        
+        .pill-option.active {
+            background-color: var(--primary-lightest);
+            color: var(--primary);
+            border-color: var(--primary-lighter);
+        }
+        
+        .pill-option i {
+            margin-right: 0.4rem;
+            font-size: 0.8rem;
+        }
+        
+        .alert-banner {
+            margin: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--warning);
+            background-color: #fffbeb;
+            font-size: 0.85rem;
+        }
+        
+        .alert-banner h5 {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert-banner h5 i {
+            margin-right: 0.5rem;
+            color: var(--warning);
+        }
+        
+        .alert-banner ul {
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .impact-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.375rem;
+        }
+        
+        .impact-item {
+            flex: 1 0 calc(50% - 0.75rem);
+            background-color: var(--gray-100);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin: 0 0.375rem 0.75rem;
+            min-width: calc(50% - 0.75rem);
+        }
+        
+        .impact-label {
+            color: var(--gray-600);
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .impact-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .negative-impact {
+            color: var(--danger);
+        }
+        
+        .positive-impact {
+            color: var(--success);
+        }
+        
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+        
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.25rem;
+        }
+        
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .input-value {
+            background-color: var(--gray-100);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .input-badge {
+            background-color: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            color: var(--gray-700);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .delta-negative {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+        
+        /* Approval Zone Styles */
+        .approval-zone {
+            margin: 1rem 0;
+        }
+        
+        .approval-zone-bar {
+            height: 30px;
+            width: 100%;
+            background: linear-gradient(to right, #ef4444 0%, #ef4444 30%, #9ca3af 30%, #9ca3af 75%, #10b981 75%, #10b981 100%);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .approval-indicator {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            height: 100%;
+            background-color: white;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .approval-zone-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.25rem;
+        }
+        
+        .zone-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .reject-zone {
+            color: var(--danger);
+        }
+        
+        .review-zone {
+            color: var(--gray-600);
+        }
+        
+        .approve-zone {
+            color: var(--success);
+        }
+        
+        .deviation-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin-top: 0.25rem;
+        }
+        
+        .approval-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-auto-approve {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .status-manual-review {
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+        }
+        
+        .status-auto-reject {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        
+        .status-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .status-approve .status-icon {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        
+        .status-review .status-icon {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+        
+        .status-reject .status-icon {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .status-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .status-message {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .scenario-badge i {
+            margin-right: 0.35rem;
+        }
+        
+        .scenario-description {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 0.75rem;
+        }
+        
+        .ai-nudge {
+            background-color: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div>
+                <h5 class="mb-0">Requester Interface</h5> <!-- Updated -->
+                <div style="font-size: 0.7rem; font-weight: normal; opacity: 0.8;">Commercial Deviation Module</div>
+            </div>
+            <button class="btn btn-sm" style="color: white">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </div>
+        
+        <div class="section-header">
+            <i class="fas fa-filter"></i> Scenario Selection
+        </div>
+        
+        <!-- Initial Nudge Layer hidden by default since we preselect a scenario -->
+        <div class="alert-banner" id="initial-nudge" style="display: none;">
+            <h5><i class="fas fa-lightbulb"></i> Consider Alternatives</h5>
+            <p class="mb-2">Before requesting a deviation, have you:</p>
+            <ul class="mb-2">
+                <li>Offered a <strong>different tenor</strong> to achieve EMI goal?</li>
+                <li>Suggested a <strong>different product</strong> that better suits this profile?</li>
+                <li>Proposed <strong>bundled offers</strong> to maintain standard pricing?</li>
+            </ul>
+            <div class="mt-1" style="color: var(--danger); font-weight: 500; font-size: 0.75rem;">
+                <i class="fas fa-exclamation-circle"></i>
+                Deviations create ₹1,550 Cr annual portfolio impact with only 3% conversion benefit (85% vs. 88%)
+            </div>
+        </div>
+        
+        <!-- Category Pills -->
+        <div class="mb-2 mx-3">
+            <label style="font-size: 0.75rem; color: var(--gray-600);">Scenario Category:</label>
+            <div class="pill-select" id="category-selector">
+                <div class="pill-option active" data-category="all">
+                    <i class="fas fa-th"></i> All Scenarios
+                </div>
+                <div class="pill-option" data-category="customer">
+                    <i class="fas fa-user"></i> Customer
+                </div>
+                <div class="pill-option" data-category="risk">
+                    <i class="fas fa-exclamation-triangle"></i> Risk
+                </div>
+                <div class="pill-option" data-category="market">
+                    <i class="fas fa-money-bill-wave"></i> Pricing
+                </div>
+                <div class="pill-option" data-category="approvalstatus">
+                    <i class="fas fa-check-circle"></i> Approval Status
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scenario Selector -->
+        <div class="mx-3 mb-3">
+            <select class="form-select" id="scenario-selector">
+                <option value="">-- Select Scenario --</option>
+                <!-- Key scenarios only -->
+                <option value="high-take-up-rate" data-category="customer">High Take Up Rate - Priority Case</option>
+                <option value="low-take-up-rate" data-category="risk">Low Take Up Rate - Deprioritize</option>
+                <option value="prime" data-category="customer">Prime Customer - Conversion Critical</option>
+                <option value="strategic" data-category="customer">Strategic Relationship Case</option>
+                <option value="micro" data-category="customer">Micro-Deviation (Low Impact)</option>
+                <option value="highrisk" data-category="risk">High Risk Case</option>
+                <option value="highticket" data-category="market">High Ticket Case</option>
+                <!-- Approval Status Scenarios -->
+                <option value="autoapprove" data-category="approvalstatus">Auto-Approval Case</option>
+                <option value="greyzone" data-category="approvalstatus">Manual Review (Grey Zone) Case</option>
+                <option value="autoreject" data-category="approvalstatus">Auto-Rejection Case</option>
+            </select>
+        </div>
+        
+        <!-- Selected Scenario Details -->
+        <div class="card" id="scenario-details-card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i> Scenario Details
+            </div>
+            <div class="card-body">
+                <div id="scenario-badge-container"></div>
+                <div id="scenario-description" class="scenario-description"></div>
+                <div id="ai-nudge" class="ai-nudge"></div>
+            </div>
+        </div>
+        
+        <div class="section-header">
+            <i class="fas fa-lightbulb"></i> AI Recommendation
+        </div>
+        
+        <!-- Strong Nudge Against Deviation - Simplified -->
+        <div class="card">
+            <div class="card-body" style="background-color: #f0f9ff;">
+                <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                        <i class="fas fa-robot" style="color: #1e40af; font-size: 1.1rem;"></i>
+                    </div>
+                    <h6 class="mb-0" style="color: #1e40af; font-weight: 600;">AI Recommends Standard Pricing</h6>
+                </div>
+                
+                <div style="background-color: white; border-radius: 0.5rem; padding: 0.75rem; border: 1px solid #dbeafe; margin-bottom: 0.75rem;">
+                    <h6 style="font-size: 0.9rem; color: #1e40af; margin-bottom: 0.5rem;">
+                        <i class="fas fa-star me-2"></i> Alternative Solutions
+                    </h6>
+                    <ul class="mb-0 ps-3" style="font-size: 0.85rem;" id="alternative-solutions">
+                        <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
+                        <li><strong>Propose Home Loan + Top-up</strong> structure for better overall pricing</li>
+                    </ul>
+                </div>
+                
+                <div style="background-color: #fee2e2; border-radius: 0.5rem; padding: 0.75rem; border-left: 3px solid #ef4444;">
+                    <h6 style="font-size: 0.9rem; color: #b91c1c; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle me-2"></i> Incentive Impact
+                    </h6>
+                    <div style="font-size: 1.1rem; font-weight: 600; text-align: center; color: #b91c1c; margin: 0.5rem 0;">
+                        -₹4,250 (8%) Monthly Incentive
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Customer Profile section removed as requested -->
+        
+        <div class="section-header" style="background: linear-gradient(to right, #dbeafe, #eff6ff); border-bottom: 1px solid #bfdbfe;">
+            <i class="fas fa-percentage" style="color: #2563eb;"></i> Commercial Deviation
+            <span style="font-size: 0.75rem; margin-left: auto; background-color: #fef2f2; color: #ef4444; font-weight: 600; padding: 3px 8px; border-radius: 12px; display: flex; align-items: center;">
+                <i class="fas fa-exclamation-triangle me-1"></i> Not Recommended
+            </span>
+        </div>
+        
+        <div class="card" style="box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 12px; border: none; overflow: hidden; margin: 0.75rem;">
+            <div class="card-body pb-0" style="padding: 0;">
+                <!-- Warning Banner -->
+                <div style="background-color: #fef2f2; padding: 12px 16px; border-bottom: 1px solid #fee2e2;">
+                    <div class="d-flex align-items-center">
+                        <div style="width: 36px; height: 36px; border-radius: 18px; background-color: #fee2e2; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-exclamation-circle" style="color: #dc2626; font-size: 1rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: #b91c1c; line-height: 1.1;">Incentive Impact Warning</div>
+                            <div style="font-size: 0.8rem; color: #991b1b; margin-top: 2px;">Each 0.1% ROI reduction = ₹500 less in monthly incentives</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls Container -->
+                <div style="padding: 16px; background-color: white;">
+                    <!-- ROI Control - Enhanced UI -->
+                    <div style="position: relative; margin-bottom: 20px; background-color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-percentage me-2" style="color: #2563eb; font-size: 0.9rem;"></i>
+                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.95rem; color: #1e3a8a;">Rate of Interest</h6>
+                            </div>
+                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 12px;">
+                                Market: 10.75% - 13.50%
+                            </span>
+                        </div>
+                        
+                        <!-- ROI Comparison Table -->
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; margin-bottom: 12px; background-color: white; border-radius: 8px; padding: 10px; border: 1px solid #e5e7eb;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-check" style="color: #059669; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">Standard:</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #059669;" id="standard-roi-display">12.00%</span>
+                                <input type="hidden" id="standard-roi" value="12.00">
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
+                            </div>
+                            <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #1d4ed8; margin-right: 8px;" id="requested-roi-display">11.25%</span>
+                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem;" id="roi-delta">-0.75%</span>
+                                <input type="hidden" id="requested-roi" value="11.25">
+                            </div>
+                        </div>
+                        
+                        <input type="range" class="form-range" id="roi-slider" min="8" max="15" step="0.05" value="11.25" style="height: 10px;">
+                    </div>
+                    
+                    <!-- PF Control - Enhanced UI -->
+                    <div style="position: relative; margin-bottom: 20px; background-color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-money-bill-wave me-2" style="color: #2563eb; font-size: 0.9rem;"></i>
+                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.95rem; color: #1e3a8a;">Processing Fee</h6>
+                            </div>
+                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 12px;">
+                                Range: ₹0 - ₹50,000
+                            </span>
+                        </div>
+                        
+                        <!-- PF Comparison Table -->
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; margin-bottom: 12px; background-color: white; border-radius: 8px; padding: 10px; border: 1px solid #e5e7eb;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-check" style="color: #059669; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">Standard:</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #059669;" id="standard-pf-display">₹25,000</span>
+                                <input type="hidden" id="standard-pf" value="25,000">
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.7rem;"></i>
+                                </div>
+                                <span style="font-size: 0.85rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
+                            </div>
+                            <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: #1d4ed8; margin-right: 8px;" id="requested-pf-display">₹10,000</span>
+                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem;" id="pf-delta">-60%</span>
+                                <input type="hidden" id="requested-pf" value="10000">
+                            </div>
+                        </div>
+                        
+                        <input
