@@ -339,16 +339,13 @@
             </div>
             <div class="section-body">
                 <select class="form-select" id="scenario-selector">
+                <option value="high-take-up-rate">High Take Up Rate - Priority Case</option>
+                <option value="low-take-up-rate">Low Take Up Rate - Deprioritize</option>
                 <option value="prime">Prime Customer - Conversion Critical</option>
                 <option value="strategic">Strategic Relationship Case</option>
                 <option value="micro">Micro-Deviation (Low Impact)</option>
                 <option value="highrisk">High Risk Case</option>
                 <option value="highticket">High Ticket Case</option>
-                <option value="competitive">Competitive Offer - Matching</option>
-                <option value="renewal">Renewal with Rate Change</option>
-                <option value="crosssell">Cross-Sell Opportunity</option>
-                <option value="segment">Segment Migration Case</option>
-                <option value="campaign">Campaign-Specific Pricing</option>
                 <option value="autoreject">Auto-Reject (High Risk Profile)</option>
                 <option value="autoapprove">Auto-Approve (Micro-Deviation)</option>
                 <option value="greyzone">Grey Zone (Manual Review)</option>
@@ -487,7 +484,7 @@
                                 </div>
                                 
 
-                                <!-- Approver's Incentive Impact -->
+                                <!-- Approver's Incentive Impact with Recommendation -->
                                 <div class="card mb-2 mt-3 border-0 shadow-sm bg-light">
                                     <div class="card-body p-2">
                                         <h6 class="mb-2" style="font-size: 0.8rem; font-weight: 600; color: #1e40af;">Approver's Incentive Impact</h6>
@@ -495,14 +492,13 @@
                                             <span>Monthly incentive impact:</span>
                                             <span class="fw-bold text-danger">-₹2,150</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1" style="font-size: 0.8rem;">
-                                            <span>Performance scorecard:</span>
-                                            <span class="fw-bold text-danger">-1.2 pts</span>
-                                        </div>
-                                        <div class="d-flex justify-content-between" style="font-size: 0.8rem;">
+                                        <div class="d-flex justify-content-between mb-2" style="font-size: 0.8rem;">
                                             <span>Portfolio yield impact:</span>
                                             <span class="fw-bold text-danger">-3.2 bps</span>
                                         </div>
+                                <div id="recommendation-container-1" class="recommendation-container">
+                                    <!-- Recommendation content will be dynamically updated -->
+                                </div>
                                     </div>
                                 </div>
                                 
@@ -615,7 +611,7 @@
                                 </div>
                                 
 
-                                <!-- Approver's Incentive Impact -->
+                                <!-- Approver's Incentive Impact with Recommendation -->
                                 <div class="card mb-2 mt-3 border-0 shadow-sm bg-light">
                                     <div class="card-body p-2">
                                         <h6 class="mb-2" style="font-size: 0.8rem; font-weight: 600; color: #1e40af;">Approver's Incentive Impact</h6>
@@ -623,14 +619,13 @@
                                             <span>Monthly incentive impact:</span>
                                             <span class="fw-bold text-warning">-₹1,250</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1" style="font-size: 0.8rem;">
-                                            <span>Performance scorecard:</span>
-                                            <span class="fw-bold text-warning">-0.5 pts</span>
-                                        </div>
-                                        <div class="d-flex justify-content-between" style="font-size: 0.8rem;">
+                                        <div class="d-flex justify-content-between mb-2" style="font-size: 0.8rem;">
                                             <span>Portfolio yield impact:</span>
                                             <span class="fw-bold text-warning">-1.8 bps</span>
                                         </div>
+                                <div id="recommendation-container-2" class="recommendation-container">
+                                    <!-- Recommendation content will be dynamically updated -->
+                                </div>
                                     </div>
                                 </div>
                                 
@@ -741,7 +736,7 @@
                                 </div>
                                 
 
-                                <!-- Approver's Incentive Impact -->
+                                <!-- Approver's Incentive Impact with Recommendation -->
                                 <div class="card mb-2 mt-3 border-0 shadow-sm bg-light">
                                     <div class="card-body p-2">
                                         <h6 class="mb-2" style="font-size: 0.8rem; font-weight: 600; color: #1e40af;">Approver's Incentive Impact</h6>
@@ -749,14 +744,13 @@
                                             <span>Monthly incentive impact:</span>
                                             <span class="fw-bold text-success">-₹250</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1" style="font-size: 0.8rem;">
-                                            <span>Performance scorecard:</span>
-                                            <span class="fw-bold text-success">-0.1 pts</span>
-                                        </div>
-                                        <div class="d-flex justify-content-between" style="font-size: 0.8rem;">
+                                        <div class="d-flex justify-content-between mb-2" style="font-size: 0.8rem;">
                                             <span>Portfolio yield impact:</span>
                                             <span class="fw-bold text-success">-0.3 bps</span>
                                         </div>
+                                <div id="recommendation-container-3" class="recommendation-container">
+                                    <!-- Recommendation content will be dynamically updated -->
+                                </div>
                                     </div>
                                 </div>
                                 
@@ -791,6 +785,20 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Hardcoded patterns for demo
             const patterns = {
+                "high-take-up-rate": {
+                    name: "High Take Up Rate - Priority Case",
+                    insight: "Customer highly likely to accept the loan offer based on behavioral indicators.",
+                    iconBackground: "#d1fae5",
+                    iconColor: "#10b981", 
+                    icon: "check-circle"
+                },
+                "low-take-up-rate": {
+                    name: "Low Take Up Rate - Deprioritize",
+                    insight: "Customer unlikely to proceed with the loan based on behavioral indicators.",
+                    iconBackground: "#f3f4f6",
+                    iconColor: "#9ca3af",
+                    icon: "exclamation-triangle"
+                },
                 "strategic": {
                     name: "Strategic Relationship Case",
                     insight: "High lifetime value customers with significant relationship value across products.",
@@ -826,41 +834,6 @@
                     iconColor: "#9a3412",
                     icon: "money-bill-wave"
                 },
-                "competitive": {
-                    name: "Competitive Offer - Matching",
-                    insight: "Price match required to win business from competitors offering better rates.",
-                    iconBackground: "#e0f2fe",
-                    iconColor: "#0369a1",
-                    icon: "exchange-alt"
-                },
-                "renewal": {
-                    name: "Renewal with Rate Change",
-                    insight: "Existing customers seeking better terms on renewal/top-up loans.",
-                    iconBackground: "#ddd6fe",
-                    iconColor: "#6d28d9",
-                    icon: "sync"
-                },
-                "crosssell": {
-                    name: "Cross-Sell Opportunity",
-                    insight: "Deviation for existing customers to enable sale of additional products.",
-                    iconBackground: "#c7d2fe",
-                    iconColor: "#4338ca",
-                    icon: "layer-group"
-                },
-                "segment": {
-                    name: "Segment Migration Case",
-                    insight: "Customer being moved to higher segment with different pricing parameters.",
-                    iconBackground: "#fbcfe8",
-                    iconColor: "#be185d",
-                    icon: "arrow-up"
-                },
-                "campaign": {
-                    name: "Campaign-Specific Pricing",
-                    insight: "Special pricing offered as part of targeted marketing campaigns.",
-                    iconBackground: "#fde68a",
-                    iconColor: "#b45309",
-                    icon: "bullhorn"
-                },
                 "autoreject": {
                     name: "Auto-Reject (High Risk Profile)",
                     insight: "Cases that fall in the auto-rejection zone due to risk profile.",
@@ -886,6 +859,28 @@
             
             // Scenario case data for different patterns
             const scenarioData = {
+                "high-take-up-rate": {
+                    roi: "11.50%",
+                    roiDiff: "-0.25%",
+                    pf: "₹15K",
+                    pfDiff: "-25%",
+                    impact: "₹55K",
+                    incentiveImpact: "-₹750",
+                    portfolioYieldImpact: "-0.8 bps",
+                    justification: "High probability of conversion based on ML model. Customer actively negotiating and completed all documentation steps.",
+                    recommendation: "<div style=\"background-color: #dcfce7; border-left: 3px solid #10b981; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #047857;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #047857;\">Approve - ML model predicts 85% take-up probability. Portfolio can absorb -0.8 bps impact. Prioritize for same-day processing.</div></div>"
+                },
+                "low-take-up-rate": {
+                    roi: "11.00%",
+                    roiDiff: "-1.00%",
+                    pf: "₹8K",
+                    pfDiff: "-68%",
+                    impact: "₹1.4L",
+                    incentiveImpact: "-₹2,350",
+                    portfolioYieldImpact: "-3.4 bps",
+                    justification: "Customer showed interest but has not completed documentation despite 3 follow-ups. Mentioned shopping around for better rates.",
+                    recommendation: "<div style=\"background-color: #fee2e2; border-left: 3px solid #dc2626; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #b91c1c;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #b91c1c;\">Reject - ML model predicts only 15% take-up probability. High portfolio yield impact (-3.4 bps) not justified for low conversion case. Deprioritize processing.</div></div>"
+                },
                 "prime": {
                     roi: "11.75%",
                     roiDiff: "-0.25%",
@@ -893,9 +888,9 @@
                     pfDiff: "-15%",
                     impact: "₹45K",
                     incentiveImpact: "-₹850",
-                    scorecardImpact: "-0.3 pts",
                     portfolioYieldImpact: "-0.9 bps",
-                    justification: "Prime customer with excellent bureau and income profile. Minor adjustment to close the deal quickly."
+                    justification: "Prime customer with excellent bureau and income profile. Minor adjustment to close the deal quickly.",
+                    recommendation: "<div style=\"background-color: #dcfce7; border-left: 3px solid #10b981; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #047857;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #047857;\">Approve - This prime customer has FOIR <30% and excellent bureau history. Portfolio can absorb the -0.9 bps impact. High conversion probability.</div></div>"
                 },
                 "strategic": {
                     roi: "11.40%",
@@ -904,9 +899,9 @@
                     pfDiff: "-20%",
                     impact: "₹78K",
                     incentiveImpact: "-₹1,100",
-                    scorecardImpact: "-0.4 pts",
                     portfolioYieldImpact: "-1.2 bps",
-                    justification: "Strategic client with significant cross-sell opportunities. Rate match needed to secure entire relationship."
+                    justification: "Strategic client with significant cross-sell opportunities. Rate match needed to secure entire relationship.",
+                    recommendation: "<div style=\"background-color: #fef3c7; border-left: 3px solid #d97706; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #92400e;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #92400e;\">Consider approving - Total relationship value (₹45L across 3 products) justifies -1.2 bps yield impact. Contact customer to secure commitment on wealth management portfolio.</div></div>"
                 },
                 "micro": {
                     roi: "11.90%",
@@ -915,9 +910,9 @@
                     pfDiff: "-5%",
                     impact: "₹12K",
                     incentiveImpact: "-₹250",
-                    scorecardImpact: "-0.1 pts",
                     portfolioYieldImpact: "-0.3 bps",
-                    justification: "Long-term loyal customer with excellent repayment history. Minor price adjustment requested."
+                    justification: "Long-term loyal customer with excellent repayment history. Minor price adjustment requested.",
+                    recommendation: "<div style=\"background-color: #dcfce7; border-left: 3px solid #10b981; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #047857;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #047857;\">Auto-approve - Negligible impact on portfolio yield (-0.3 bps). RM has disciplined deviation pattern (8% vs branch average of 25%). No direct customer call needed.</div></div>"
                 },
                 "highrisk": {
                     roi: "11.25%",
@@ -926,9 +921,9 @@
                     pfDiff: "-60%",
                     impact: "₹1.2L",
                     incentiveImpact: "-₹2,150",
-                    scorecardImpact: "-1.2 pts",
                     portfolioYieldImpact: "-3.2 bps",
-                    justification: "Customer has a competitive offer from ABC Bank at 11.00%. This is a high-value relationship customer with 3 existing products."
+                    justification: "Customer has a competitive offer from ABC Bank at 11.00%. This is a high-value relationship customer with 3 existing products.",
+                    recommendation: "<div style=\"background-color: #fee2e2; border-left: 3px solid #dc2626; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #b91c1c;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #b91c1c;\">Counter at 11.50% - Further deviation would drop branch portfolio yield below quarterly target. This RM consistently exceeds deviation thresholds (32% vs 25% avg). Verify competitor offer.</div></div>"
                 },
                 "highticket": {
                     roi: "11.50%",
@@ -937,64 +932,9 @@
                     pfDiff: "-30%",
                     impact: "₹1.5L",
                     incentiveImpact: "-₹1,750",
-                    scorecardImpact: "-0.8 pts",
                     portfolioYieldImpact: "-2.5 bps",
-                    justification: "High ticket loan for premium client. Rate adjustment needed to remain competitive in the premium segment."
-                },
-                "competitive": {
-                    roi: "11.40%",
-                    roiDiff: "-0.60%",
-                    pf: "₹16K",
-                    pfDiff: "-35%",
-                    impact: "₹92K",
-                    incentiveImpact: "-₹1,350",
-                    scorecardImpact: "-0.6 pts",
-                    portfolioYieldImpact: "-1.8 bps",
-                    justification: "Client has a written offer from competitor at 11.25%. Need to match to retain business."
-                },
-                "renewal": {
-                    roi: "11.65%",
-                    roiDiff: "-0.35%",
-                    pf: "₹18K",
-                    pfDiff: "-25%",
-                    impact: "₹62K",
-                    incentiveImpact: "-₹950",
-                    scorecardImpact: "-0.4 pts",
-                    portfolioYieldImpact: "-1.1 bps",
-                    justification: "Existing customer with perfect repayment history seeking renewal with better terms."
-                },
-                "crosssell": {
-                    roi: "11.70%",
-                    roiDiff: "-0.30%",
-                    pf: "₹22K",
-                    pfDiff: "-12%",
-                    impact: "₹55K",
-                    incentiveImpact: "-₹750",
-                    scorecardImpact: "-0.3 pts",
-                    portfolioYieldImpact: "-0.8 bps",
-                    justification: "Cross-sell opportunity for wealth management products. Rate adjustment will help secure full banking relationship."
-                },
-                "segment": {
-                    roi: "11.60%",
-                    roiDiff: "-0.40%",
-                    pf: "₹25K",
-                    pfDiff: "-10%",
-                    impact: "₹68K",
-                    incentiveImpact: "-₹930",
-                    scorecardImpact: "-0.4 pts",
-                    portfolioYieldImpact: "-1.0 bps",
-                    justification: "Client is being migrated to priority segment. Rate adjustment to match new segment guidelines."
-                },
-                "campaign": {
-                    roi: "11.55%",
-                    roiDiff: "-0.45%",
-                    pf: "₹15K",
-                    pfDiff: "-40%",
-                    impact: "₹85K",
-                    incentiveImpact: "-₹1,050",
-                    scorecardImpact: "-0.5 pts",
-                    portfolioYieldImpact: "-1.4 bps",
-                    justification: "Part of festival campaign to increase conversions. Rate in line with campaign offerings."
+                    justification: "High ticket loan for premium client. Rate adjustment needed to remain competitive in the premium segment.",
+                    recommendation: "<div style=\"background-color: #fef3c7; border-left: 3px solid #d97706; padding: 6px 8px; border-radius: 4px; margin-top: 6px;\"><div style=\"font-size: 0.75rem; font-weight: 600; color: #92400e;\"><i class=\"fas fa-lightbulb me-1\"></i> Recommendation:</div><div style=\"font-size: 0.75rem; color: #92400e;\">Escalate to Credit Head - Amount exceeds your approval threshold. Absolute revenue impact (₹1.5L) is significant despite modest ROI adjustment. Recommend structuring as Piramal Premium + Regular.</div></div>"
                 },
                 "autoreject": {
                     roi: "11.20%",
@@ -1030,6 +970,98 @@
                     justification: "Mixed signals - strong bureau but price sensitive. Deviation needed to improve conversion likelihood."
                 }
             };
+            
+            // Direct function to update all recommendations
+            function updateAllRecommendations(selectedPatternId) {
+                console.log("Updating ALL recommendations for scenario:", selectedPatternId);
+                
+                // Get all recommendation containers
+                const containers = document.querySelectorAll('.recommendation-container');
+                
+                // Define recommendation content and styles for each scenario
+                let bgColor, borderColor, textColor, content;
+                
+                switch(selectedPatternId) {
+                    case 'high-take-up-rate':
+                        bgColor = "#dcfce7";
+                        borderColor = "#10b981";
+                        textColor = "#047857";
+                        content = "Approve - ML model predicts 85% take-up probability. Portfolio can absorb -0.8 bps impact. Prioritize for same-day processing.";
+                        break;
+                    case 'low-take-up-rate':
+                        bgColor = "#fee2e2";
+                        borderColor = "#dc2626";
+                        textColor = "#b91c1c";
+                        content = "Reject - ML model predicts only 15% take-up probability. High portfolio yield impact (-3.4 bps) not justified for low conversion case. Deprioritize processing.";
+                        break;
+                    case 'prime':
+                        bgColor = "#dcfce7";
+                        borderColor = "#10b981";
+                        textColor = "#047857";
+                        content = "Approve - This prime customer has FOIR <30% and excellent bureau history. Portfolio can absorb the -0.9 bps impact. High conversion probability.";
+                        break;
+                    case 'strategic':
+                        bgColor = "#fef3c7";
+                        borderColor = "#d97706";
+                        textColor = "#92400e";
+                        content = "Consider approving - Total relationship value (₹45L across 3 products) justifies -1.2 bps yield impact. Contact customer to secure commitment on wealth management portfolio.";
+                        break;
+                    case 'micro':
+                        bgColor = "#dcfce7";
+                        borderColor = "#10b981";
+                        textColor = "#047857";
+                        content = "Auto-approve - Negligible impact on portfolio yield (-0.3 bps). RM has disciplined deviation pattern (8% vs branch average of 25%). No direct customer call needed.";
+                        break;
+                    case 'highrisk':
+                        bgColor = "#fee2e2";
+                        borderColor = "#dc2626";
+                        textColor = "#b91c1c";
+                        content = "Counter at 11.50% - Further deviation would drop branch portfolio yield below quarterly target. This RM consistently exceeds deviation thresholds (32% vs 25% avg). Verify competitor offer.";
+                        break;
+                    case 'highticket':
+                        bgColor = "#fef3c7";
+                        borderColor = "#d97706";
+                        textColor = "#92400e";
+                        content = "Escalate to Credit Head - Amount exceeds your approval threshold. Absolute revenue impact (₹1.5L) is significant despite modest ROI adjustment. Recommend structuring as Piramal Premium + Regular.";
+                        break;
+                    case 'autoapprove':
+                        bgColor = "#dcfce7";
+                        borderColor = "#10b981";
+                        textColor = "#047857";
+                        content = "Auto-approve - System confirms this case meets auto-approval criteria. Deviation is minimal with no material impact on portfolio metrics. No manual review required.";
+                        break;
+                    case 'greyzone':
+                        bgColor = "#e0f2fe";
+                        borderColor = "#0284c7";
+                        textColor = "#075985";
+                        content = "Review required - Case falls in the grey zone with mixed signals. Request verification of competitor offer and compare to similar recently approved cases.";
+                        break;
+                    case 'autoreject':
+                        bgColor = "#fee2e2";
+                        borderColor = "#dc2626";
+                        textColor = "#b91c1c";
+                        content = "Auto-reject - Deviation exceeds policy thresholds significantly. L3+ approval required if you wish to proceed. Consider counter-offer at 11.65% which stays within acceptable limits.";
+                        break;
+                    default:
+                        bgColor = "#dcfce7";
+                        borderColor = "#10b981";
+                        textColor = "#047857";
+                        content = "Please select a scenario to see a recommendation.";
+                }
+                
+                // Update all recommendation containers with the same content
+                const recommendationHTML = `
+                    <div style="background-color: ${bgColor}; border-left: 3px solid ${borderColor}; padding: 6px 8px; border-radius: 4px; margin-top: 6px;">
+                        <div style="font-size: 0.75rem; font-weight: 600; color: ${textColor};"><i class="fas fa-lightbulb me-1"></i> Recommendation:</div>
+                        <div style="font-size: 0.75rem; color: ${textColor};">${content}</div>
+                    </div>
+                `;
+                
+                containers.forEach((container, index) => {
+                    container.innerHTML = recommendationHTML;
+                    console.log(`Updated recommendation container ${index+1} for scenario: ${selectedPatternId}`);
+                });
+            }
             
             // Set up event listener for scenario selection
             document.getElementById('scenario-selector').addEventListener('change', function() {
@@ -1095,14 +1127,12 @@
                                 justificationText.textContent = `"${scenarioValues.justification}"`;
                             }
                             
-                            // Update Approver's Incentive Impact
+                                // Update Approver's Incentive Impact
                             const monthlyImpact = activeCase.querySelector('.card-body.p-2 .d-flex.justify-content-between.mb-1:first-child span:nth-child(2)');
-                            const scorecardImpact = activeCase.querySelector('.card-body.p-2 .d-flex.justify-content-between.mb-1:last-child span:nth-child(2)');
-                            const portfolioYieldImpact = activeCase.querySelector('.card-body.p-2 .d-flex.justify-content-between:last-child span:nth-child(2)');
+                            const portfolioYieldImpact = activeCase.querySelector('.card-body.p-2 .d-flex.justify-content-between.mb-2 span:nth-child(2)');
                             
-                            if (monthlyImpact && scorecardImpact && portfolioYieldImpact) {
+                            if (monthlyImpact && portfolioYieldImpact) {
                                 monthlyImpact.textContent = scenarioValues.incentiveImpact;
-                                scorecardImpact.textContent = scenarioValues.scorecardImpact;
                                 portfolioYieldImpact.textContent = scenarioValues.portfolioYieldImpact;
                                 
                                 // Update color based on impact severity
@@ -1110,17 +1140,17 @@
                                 
                                 if (impactValue > 1500) {
                                     monthlyImpact.className = 'fw-bold text-danger';
-                                    scorecardImpact.className = 'fw-bold text-danger';
                                     portfolioYieldImpact.className = 'fw-bold text-danger';
                                 } else if (impactValue > 500) {
                                     monthlyImpact.className = 'fw-bold text-warning';
-                                    scorecardImpact.className = 'fw-bold text-warning';
                                     portfolioYieldImpact.className = 'fw-bold text-warning';
                                 } else {
                                     monthlyImpact.className = 'fw-bold text-success';
-                                    scorecardImpact.className = 'fw-bold text-success';
                                     portfolioYieldImpact.className = 'fw-bold text-success';
                                 }
+                                
+                                // Update all recommendations
+                                updateAllRecommendations(selectedPatternId);
                             }
                         }
                     }
@@ -1176,9 +1206,27 @@
                 }
             });
             
-            // Initialize scenario to prime
+            // Function to force update UI with current scenario
+            function forceUpdateUI() {
+                const currentScenario = document.getElementById('scenario-selector').value;
+                console.log("Force updating UI for scenario:", currentScenario);
+                
+                // Call our recommendation update function directly
+                updateAllRecommendations(currentScenario);
+                
+                // Then dispatch the change event to update other UI elements
+                document.getElementById('scenario-selector').dispatchEvent(new Event('change'));
+            }
+            
+            // Initialize scenario to prime and update UI
             document.getElementById('scenario-selector').value = 'prime';
-            document.getElementById('scenario-selector').dispatchEvent(new Event('change'));
+            forceUpdateUI();
+            
+            // Add a button click handler for when cases change
+            document.querySelectorAll('.case-item').forEach(item => {
+                const caseIndex = item.getAttribute('data-case-index');
+                console.log(`Added handler for case ${caseIndex}`);
+            });
             
             // Initialize to show the first case
             const allCases = document.querySelectorAll('.case-item');
@@ -1188,7 +1236,33 @@
                 } else {
                     caseItem.classList.remove('active');
                 }
+                
+                // Add a mutation observer to detect when cases become active
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'attributes' && 
+                            mutation.attributeName === 'class' && 
+                            caseItem.classList.contains('active')) {
+                            console.log(`Case ${caseItem.getAttribute('data-case-index')} became active`);
+                            forceUpdateUI();
+                        }
+                    });
+                });
+                
+                // Start observing
+                observer.observe(caseItem, { attributes: true });
             });
+            
+            // Add a direct event listener to the scenario selector
+            document.getElementById('scenario-selector').addEventListener('input', function() {
+                console.log("INPUT EVENT: Scenario changed to " + this.value);
+                updateAllRecommendations(this.value);
+            });
+            
+            // Force an initial update and set a delayed update
+            forceUpdateUI();
+            setTimeout(updateAllRecommendations, 500, document.getElementById('scenario-selector').value);
+            setTimeout(forceUpdateUI, 1000);
         });
     </script>
 </body>
