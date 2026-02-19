@@ -515,7 +515,7 @@
                 
                 <div style="background-color: white; border-radius: 0.5rem; padding: 0.75rem; border: 1px solid #dbeafe; margin-bottom: 0.75rem;">
                     <h6 style="font-size: 0.9rem; color: #1e40af; margin-bottom: 0.5rem;">
-                        <i class="fas fa-star me-2"></i> Alternative Solutions
+                        <i class="fas fa-star me-2"></i> Convincing Talking Points
                     </h6>
                     <ul class="mb-0 ps-3" style="font-size: 0.85rem;" id="alternative-solutions">
                         <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
@@ -560,109 +560,89 @@
                 
                 <!-- Controls Container -->
                 <div style="padding: 16px; background-color: white;">
-                    <!-- ROI Control - Enhanced UI -->
-                    <div style="position: relative; margin-bottom: 20px; background-color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- ROI Control - Enhanced UI (Compact) -->
+                    <div style="position: relative; margin-bottom: 14px; background-color: #f8fafc; border-radius: 8px; padding: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 3px rgba(0,0,0,0.04);">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-percentage me-2" style="color: #2563eb; font-size: 0.9rem;"></i>
-                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.95rem; color: #1e3a8a;">Rate of Interest</h6>
+                                <i class="fas fa-percentage me-1" style="color: #2563eb; font-size: 0.8rem;"></i>
+                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.85rem; color: #1e3a8a;">Rate of Interest</h6>
                             </div>
-                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 12px;">
+                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.65rem; padding: 0.25rem 0.5rem; border-radius: 8px;">
                                 Market: 10.75% - 13.50%
                             </span>
                         </div>
                         
                         <!-- ROI Comparison Table -->
-                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; margin-bottom: 12px; background-color: white; border-radius: 8px; padding: 10px; border: 1px solid #e5e7eb;">
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; margin-bottom: 8px; background-color: white; border-radius: 6px; padding: 8px; border: 1px solid #e5e7eb;">
                             <div style="display: flex; align-items: center;">
-                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
-                                    <i class="fas fa-check" style="color: #059669; font-size: 0.7rem;"></i>
+                                <div style="width: 18px; height: 18px; border-radius: 10px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 6px;">
+                                    <i class="fas fa-check" style="color: #059669; font-size: 0.6rem;"></i>
                                 </div>
-                                <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">Standard:</span>
+                                <span style="font-size: 0.75rem; color: #059669; font-weight: 600;">Standard:</span>
                             </div>
                             <div style="text-align: right;">
-                                <span style="font-size: 1.1rem; font-weight: 700; color: #059669;" id="standard-roi-display">12.00%</span>
+                                <span style="font-size: 0.9rem; font-weight: 700; color: #059669;" id="standard-roi-display">12.00%</span>
                                 <input type="hidden" id="standard-roi" value="12.00">
                             </div>
                             
                             <div style="display: flex; align-items: center;">
-                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
-                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.7rem;"></i>
+                                <div style="width: 18px; height: 18px; border-radius: 10px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 6px;">
+                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.6rem;"></i>
                                 </div>
-                                <span style="font-size: 0.85rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
+                                <span style="font-size: 0.75rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
                             </div>
                             <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
-                                <span style="font-size: 1.1rem; font-weight: 700; color: #1d4ed8; margin-right: 8px;" id="requested-roi-display">11.25%</span>
-                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem;" id="roi-delta">-0.75%</span>
+                                <span style="font-size: 0.9rem; font-weight: 700; color: #1d4ed8; margin-right: 6px;" id="requested-roi-display">11.25%</span>
+                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 2px 6px; border-radius: 6px; font-size: 0.65rem;" id="roi-delta">-0.75%</span>
                                 <input type="hidden" id="requested-roi" value="11.25">
                             </div>
                         </div>
                         
-                        <input type="range" class="form-range" id="roi-slider" min="8" max="15" step="0.05" value="11.25" style="height: 10px;">
+                        <input type="range" class="form-range" id="roi-slider" min="8" max="15" step="0.05" value="11.25" style="height: 8px;">
                     </div>
                     
-                    <!-- PF Control - Enhanced UI -->
-                    <div style="position: relative; margin-bottom: 20px; background-color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- PF Control - Enhanced UI (Compact) -->
+                    <div style="position: relative; margin-bottom: 14px; background-color: #f8fafc; border-radius: 8px; padding: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 3px rgba(0,0,0,0.04);">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-money-bill-wave me-2" style="color: #2563eb; font-size: 0.9rem;"></i>
-                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.95rem; color: #1e3a8a;">Processing Fee</h6>
+                                <i class="fas fa-money-bill-wave me-1" style="color: #2563eb; font-size: 0.8rem;"></i>
+                                <h6 style="font-weight: 700; margin-bottom: 0; font-size: 0.85rem; color: #1e3a8a;">Processing Fee</h6>
                             </div>
-                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 12px;">
+                            <span style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.65rem; padding: 0.25rem 0.5rem; border-radius: 8px;">
                                 Range: ₹0 - ₹50,000
                             </span>
                         </div>
                         
                         <!-- PF Comparison Table -->
-                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; margin-bottom: 12px; background-color: white; border-radius: 8px; padding: 10px; border: 1px solid #e5e7eb;">
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; margin-bottom: 8px; background-color: white; border-radius: 6px; padding: 8px; border: 1px solid #e5e7eb;">
                             <div style="display: flex; align-items: center;">
-                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
-                                    <i class="fas fa-check" style="color: #059669; font-size: 0.7rem;"></i>
+                                <div style="width: 18px; height: 18px; border-radius: 10px; background-color: #dcfce7; display: flex; align-items: center; justify-content: center; margin-right: 6px;">
+                                    <i class="fas fa-check" style="color: #059669; font-size: 0.6rem;"></i>
                                 </div>
-                                <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">Standard:</span>
+                                <span style="font-size: 0.75rem; color: #059669; font-weight: 600;">Standard:</span>
                             </div>
                             <div style="text-align: right;">
-                                <span style="font-size: 1.1rem; font-weight: 700; color: #059669;" id="standard-pf-display">₹25,000</span>
+                                <span style="font-size: 0.9rem; font-weight: 700; color: #059669;" id="standard-pf-display">₹25,000</span>
                                 <input type="hidden" id="standard-pf" value="25,000">
                             </div>
                             
                             <div style="display: flex; align-items: center;">
-                                <div style="width: 24px; height: 24px; border-radius: 12px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
-                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.7rem;"></i>
+                                <div style="width: 18px; height: 18px; border-radius: 10px; background-color: #dbeafe; display: flex; align-items: center; justify-content: center; margin-right: 6px;">
+                                    <i class="fas fa-pen" style="color: #1d4ed8; font-size: 0.6rem;"></i>
                                 </div>
-                                <span style="font-size: 0.85rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
+                                <span style="font-size: 0.75rem; color: #1d4ed8; font-weight: 600;">Requested:</span>
                             </div>
                             <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
-                                <span style="font-size: 1.1rem; font-weight: 700; color: #1d4ed8; margin-right: 8px;" id="requested-pf-display">₹10,000</span>
-                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem;" id="pf-delta">-60%</span>
+                                <span style="font-size: 0.9rem; font-weight: 700; color: #1d4ed8; margin-right: 6px;" id="requested-pf-display">₹10,000</span>
+                                <span style="font-weight: 600; background-color: #fee2e2; color: #dc2626; padding: 2px 6px; border-radius: 6px; font-size: 0.65rem;" id="pf-delta">-60%</span>
                                 <input type="hidden" id="requested-pf" value="10000">
                             </div>
                         </div>
                         
-                        <input type="range" class="form-range" id="pf-slider" min="0" max="50000" step="1000" value="10000" style="height: 10px;">
+                        <input type="range" class="form-range" id="pf-slider" min="0" max="50000" step="1000" value="10000" style="height: 8px;">
                     </div>
                     
-                    <!-- Impact Summary - Enhanced UI -->
-                    <div style="background: linear-gradient(100deg, #fee2e2 0%, #fef2f2 100%); border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.1); border: 1px solid #fecaca;">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="d-flex align-items-center">
-                                <div style="width: 32px; height: 32px; border-radius: 16px; background-color: white; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                    <i class="fas fa-chart-line" style="color: #dc2626; font-size: 0.9rem;"></i>
-                                </div>
-                                <h6 style="font-size: 1rem; color: #991b1b; margin-bottom: 0; font-weight: 700;">Impact Summary</h6>
-                            </div>
-                        </div>
-                        
-                        <div style="background-color: rgba(255, 255, 255, 0.6); border-radius: 8px; padding: 12px; border: 1px solid rgba(254, 202, 202, 0.5);">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-wallet me-2" style="color: #dc2626; font-size: 0.85rem;"></i>
-                                    <span style="font-size: 0.9rem; color: #991b1b; font-weight: 600;">Monthly Incentive:</span>
-                                </div>
-                                <span class="fw-bold" style="font-size: 1.1rem; color: #dc2626;" id="incentive-impact">-₹4,250</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Impact Summary removed as requested -->
                 </div>
             </div>
         </div>
@@ -720,6 +700,58 @@
         document.addEventListener('DOMContentLoaded', function() {
             // All scenarios data
             const scenarios = {
+                "high-take-up-rate": {
+                    name: "High Take Up Rate - Priority Case",
+                    description: "Customer highly likely to accept the loan offer based on behavioral indicators.",
+                    iconBackground: "#d1fae5",
+                    iconColor: "#10b981",
+                    icon: "check-circle",
+                    nudgeMessage: "This customer is highly likely to take up the loan offer. Prioritize this case for faster processing as conversion probability is high.",
+                    approvalPathway: "Cases with high take-up probability receive expedited processing.",
+                    recommendations: [
+                        "Focus on quick processing to secure the business",
+                        "Consider pre-approval for accelerated disbursement",
+                        "Prepare documentation in advance to streamline closing"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Positive (ensures revenue capture)",
+                        conversionLikelihood: "+85%",
+                        processingTimeImpact: "Priority processing recommended"
+                    },
+                    riskLevel: "Low Risk",
+                    commercialTerms: {
+                        standardRoi: 11.75,
+                        requestedRoi: 11.50,
+                        standardPf: 20000,
+                        requestedPf: 15000
+                    }
+                },
+                "low-take-up-rate": {
+                    name: "Low Take Up Rate - Deprioritize",
+                    description: "Customer unlikely to proceed with the loan based on behavioral indicators.",
+                    iconBackground: "#f3f4f6",
+                    iconColor: "#9ca3af",
+                    icon: "exclamation-triangle",
+                    nudgeMessage: "This customer has a low probability of proceeding with the loan. Consider deprioritizing effort as conversion is unlikely.",
+                    approvalPathway: "Standard processing without expedited handling.",
+                    recommendations: [
+                        "Minimize effort spent on extensive documentation",
+                        "Consider automated follow-up rather than manual outreach",
+                        "Focus resources on higher-probability cases"
+                    ],
+                    impactAnalysis: {
+                        profitabilityImpact: "Minimal (opportunity cost savings)",
+                        conversionLikelihood: "<15%",
+                        processingTimeImpact: "Standard (non-priority)"
+                    },
+                    riskLevel: "Medium Risk",
+                    commercialTerms: {
+                        standardRoi: 12.25,
+                        requestedRoi: 11.75,
+                        standardPf: 22000,
+                        requestedPf: 16000
+                    }
+                },
                 "high-take-up-rate": {
                     name: "High Take Up Rate - Priority Case",
                     description: "Customer highly likely to accept the loan offer based on behavioral indicators.",
@@ -1562,33 +1594,33 @@
                 
                 if (scenarioId === 'prime') {
                     alternativeSolutionsEl.innerHTML = `
-                        <li><strong>Offer premium customer features</strong> instead of rate discount (zero documentation, doorstep service)</li>
-                        <li><strong>Propose wealth management services</strong> with preferential rates for high value customers</li>
-                        <li><strong>Suggest premier banking program</strong> with fee waivers across products</li>
+                        <li><strong>Pre-approved top-up loan</strong> at same ROI after 9 months of timely repayment (limited time offer for prime customers)</li>
+                        <li><strong>Offer LAP instead of HL+TL</strong> to save 1.2% ROI while maintaining LTV within regulatory limits</li>
+                        <li><strong>Reduced CERSAI and legal charges</strong> at standard ROI (₹18,000 savings over competitor offers)</li>
                     `;
                 } else if (scenarioId === 'strategic') {
                     alternativeSolutionsEl.innerHTML = `
-                        <li><strong>Provide relationship-based pricing</strong> across all existing product holdings</li>
-                        <li><strong>Offer premium cross-sell products</strong> with built-in relationship discount</li>
-                        <li><strong>Suggest no-charge balance transfers</strong> from competitor loans</li>
+                        <li><strong>Waive foreclosure charges completely</strong> (standard: 3-5% of principal) with standard pricing</li>
+                        <li><strong>Post-dated cheque (PDC) swap</strong> without documentation charges every 6 months (worth ₹3,500 per swap)</li>
+                        <li><strong>Business Advisory Line access</strong> for tax/legal consultation from our panel CAs (valued at ₹35,000/year)</li>
                     `;
                 } else if (scenarioId === 'micro') {
                     alternativeSolutionsEl.innerHTML = `
-                        <li><strong>Apply standard pricing</strong> with faster processing SLAs (same day approval)</li>
-                        <li><strong>Propose digital-only service</strong> with 0.1% better rate</li>
-                        <li><strong>Suggest fee waiver</strong> instead of rate reduction (equal value, better for bank)</li>
+                        <li><strong>One-time waiver of ECS bounce charges</strong> during initial 6 months (worth ₹1,180 per instance)</li>
+                        <li><strong>Adjust loan tenure to 84 months</strong> to achieve desired EMI while maintaining standard ROI</li>
+                        <li><strong>Structure with balance transfer from competitor loan</strong> to utilize BT benefits instead of deviation</li>
                     `;
                 } else if (scenarioId === 'highrisk') {
                     alternativeSolutionsEl.innerHTML = `
-                        <li><strong>Require additional collateral/security</strong> instead of rate reduction</li>
-                        <li><strong>Propose step-up pricing</strong> with performance-based rate improvement</li>
-                        <li><strong>Suggest risk-based bundled insurance</strong> with standard loan pricing</li>
+                        <li><strong>Apply risk-adjusted pricing</strong> with additional 5% security deposit (refundable) instead of ROI reduction</li>
+                        <li><strong>Reduce LTV to 65%</strong> from standard 75% to maintain standard ROI (reduces risk profile)</li>
+                        <li><strong>Offer property insurance bundled at dealer cost</strong> to partially offset higher ROI (₹28,000 savings)</li>
                     `;
                 } else if (scenarioId === 'highticket') {
                     alternativeSolutionsEl.innerHTML = `
-                        <li><strong>Offer a 7-year tenure</strong> instead of 5 years to achieve similar EMI</li>
-                        <li><strong>Propose splitting into Home Loan + Top-up</strong> structure for better pricing</li>
-                        <li><strong>Suggest portfolio-based pricing</strong> with commitments for additional business</li>
+                        <li><strong>Split into Self-Occupied + Commercial components</strong> for optimal tax benefits at standard rates</li>
+                        <li><strong>Structured disbursement linked to construction stages</strong> to reduce interest burden during build phase</li>
+                        <li><strong>Direct vendor payments option</strong> to eliminate GST on transactions with pre-negotiated discounts</li>
                     `;
                 }
                 
